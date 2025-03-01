@@ -1,0 +1,440 @@
+*staba.txt*                                             UI display integration
+
+Author:  tar80 <tar80master@google.com>
+License: MIT License
+Repository: https://github.com/tar80/staba.nvim
+
+CONTENTS                                                      *staba-contents*
+
+Introduction                                              |staba-introduction|
+Interface                                                    |staba-interface|
+  function                                                    |staba-function|
+  configuration                                          |staba-configuration|
+  component                                                  |staba-component|
+  mapping                                                      |staba-mapping|
+  highlight                                                  |staba-highlight|
+
+==============================================================================
+INTRODUCTION                                              *staba-introduction*
+
+Staba.nvim is a UI display plugin that integrates Tabline, Statusline, and
+Statuscolumn. Rather than providing rich displays or numerous providers,
+it is designed to optimize UI-related features across the entire editor and
+reduce visual clutter.
+
+This plugin is intended to be used with 'cmdheight'=0 and 'laststatus'=2.
+
+==============================================================================
+INTERFACE                                                    *staba-interface*
+
+------------------------------------------------------------------------------
+FUNCTION                                                      *staba-function*
+
+setup({cfg})                                                   *staba.setup()*
+
+        Setup and activate staba
+
+        Parameters: ~
+                {enable_fade}         (boolean)   |staba-enable-fade|
+                {enable_underline}   (boolean)   |staba-enable-underline|
+                {enable_statuscolumn} (boolean)   |staba-enable-statuscolumn|
+                {enable_statusline}   (boolean)   |staba-enable-statusline|
+                {enable_tabline}      (boolean)   |staba-enable-tabline|
+                {mode_line}           (string)    |staba-mode-line|
+                {nav_keys}            (string)    |staba-nav-keys|
+                {no_name}             (string)    |staba-no-name|
+                {ignore_filetypes}    (table)     |staba-ignore-filetypes|
+                {statuscolumn}        (table)     |staba-statuscolumn|
+                {statusline}          (table)     |staba-statusline|
+                {tabline}             (table)     |staba-tabline|
+                {frame}               (table)     |staba-frame|
+                {sep}                 (table)     |staba-sep|
+                {icons}               (table)     |staba-icon|
+
+------------------------------------------------------------------------------
+CONFIGURATION                                            *staba-configuration*
+
+staba-enable-fade                                          *staba-enable-fade*
+
+        Fades the background color of windows other than the current one.
+
+        Type: boolean
+        Default: false
+
+staba-enable-underline                                *staba-enable-underline*
+
+        Sets an underline to separate from other windows.
+
+        Type: boolean
+        Default: false
+
+staba-enable-statuscolumn                          *staba-enable-statuscolumn*
+
+        Enables statuscolumn
+
+        Type: boolean
+        Default: false
+
+staba-enable-statusline                              *staba-enable-statusline*
+
+        Enables statusline
+
+        Type: boolean
+        Default: false
+
+staba-enable-tabline                                    *staba-enable-tabline*
+
+        Enables tabline
+
+        Type: boolean
+        Default: false
+
+staba-mode-line                                              *staba-mode-line*
+
+        Sets the background color of the current line according to the mode.
+
+        Type: "LineNr" | "CursorLineNr" | "CursorLine"
+        Default: "LineNr"
+
+staba-nav-keys                                                *staba-nav-keys*
+
+        Specifies alphabets to be used as navigation-key in tabline.
+
+        Type: string
+        Default: "asdfghjklzxcvnmweryuiop"
+
+staba-no-name                                                  *staba-no-name*
+
+        Specifies the display name for unnamed buffers.
+
+        Type: string
+        Default: "[No Name]"
+
+staba-ignore-filetypes                                *staba-ignore-filetypes*
+
+        Specifies filetypes for which the settings should be disabled.
+
+        Type: table
+        Default: {
+            fade = {},
+            statuscolumn = { 'qf', 'help', 'terminal' },
+            statusline = { 'terminal' },
+            tabline = {}
+        }
+
+staba-statuscolumn                                        *staba-statuscolumn*
+
+        Specifies the components to be used in statuscolumn.
+
+        Type: table
+        Default: { 'sign', 'number', 'fold_ex' }
+
+staba-statusline                                            *staba-statusline*
+
+        Specifies the components to be used in statusline.
+
+        Type: table
+        Default: {
+            active = {
+              left = { 'staba_logo', 'search_count', 'noice_mode' },
+              middle = {},
+              right = { '%<', 'diagnostics', ' ', 'encoding', ' ', 'position' },
+            },
+            inactive = {
+              left = {},
+              middle = { 'devicon', 'filename', '%*' },
+              right = {}
+            },
+        }
+
+staba-tabline                                                  *staba-tabline*
+
+        Specifies the components to be used in tabline.
+
+        Type: table
+        Default: {
+            left = { 'bufinfo', 'parent', '/ ' },
+            right = {},
+            view = { 'buffers', 'tabs' },
+            bufinfo = {
+              '%#StabaTabsReverse#', 'tab',
+              '%#StabaBuffersReverse#', 'buffer',
+              '%#StabaModified#', 'modified',
+              '%#StabaSpecial#', 'unopened',
+              '%* ',
+            },
+            active = { 'devicon', 'namestate' },
+            tabs = { '', '%#StabaTabs#', 'nav_key', '▍', 'namestate' },
+            buffers = { '', '%#StabaBuffers#', 'nav_key', '▍', 'namestate' },
+        }
+
+staba-frame                                                      *staba-frame*
+
+        Specifies the icon text and highlight table to use for the frame
+
+        Type: {[string]: {chr:string, hl:string}}
+        Default: {
+            tabs_left = {chr = '', hl = 'StabaTabsReverse'},
+            tabs_right = {chr = '▍', hl = 'StabaTabsReverse'},
+            buffers_left = {chr = '', hl = 'StabaBuffersReverse'},
+            buffers_right = {chr = '▍', hl = 'StabaBuffersReverse'},
+            statusline_left = {chr = '', hl = 'StabaStatusReverse'},
+            statusline_right = {chr = '', hl = 'StabaStatusReverse'},
+        }
+
+staba-sep                                                          *staba-sep*
+
+        Specifies the icon character, highlight, prefix, and suffix table
+        to use for the separator
+
+        Type: {
+          [string]: {chr:string, hl:string, prefix:string, suffix:string}
+        }
+        Default: {
+            normal_left ={chr = '', hl = 'TablineFill', suffix = '%* '},
+            normal_right ={chr = '', hl = 'TablineFill', suffix = '%* '}
+        }
+
+staba-icon                                                        *staba-icon*
+
+        Table of icons
+
+        Type: {[string]: string | [icon:string, hlgroup:string]}
+        Default: {
+            logo ={ '', 'WarningMsg' },
+            bar = '│',
+            bufinfo = { tab = 'ᵀ', buffer = 'ᴮ', modified = 'ᴹ', unopened = 'ᵁ' },
+            fold = { open = '󰍝', close = '󰍟', blank = ' ' },
+            fileformat = {
+                dos = { '', 'Changed' },
+                mac = { '', 'Removed' },
+                unix = { '', 'Added'  },
+            },
+            severity = {
+                Error = { '', 'DiagnosticSignError' },
+                Warn = { '', 'DiagnosticSignWarn'  },
+                Hint = { '', 'DiagnosticSignHint'  },
+                Info = { '''DiagnosticSignInfo'  },
+            },
+            status = {
+                edit = '󰤌',
+                lock = '󰍁',
+                unlock = '  ',
+                modify = '󰐖',
+                nomodify = '  ',
+            },
+        }
+
+------------------------------------------------------------------------------
+COMPONENT                                                    *staba-component*
+
+In addition to the standard components, strings and functions
+can be specified for statusline and tabline.
+
+Statuscolumn                                              *staba-statuscolumn*
+        Parameters: ~
+            |staba-component-statuscolumn|
+
+Statusline                                                  *staba-statusline*
+
+        Fields: ~
+            active: Current statusline
+                Parameters: ~
+                    |staba-component-common|,
+                    |staba-component-statusline|,
+                    |staba-component-string|,
+                    |staba-component-function|
+
+            inactive: Non-current statusline
+                Parameters: ~
+                    |staba-component-common|,
+                    |staba-component-statusline|,
+                    |staba-component-string|,
+                    |staba-component-function|
+
+Tabline                                                        *staba-tabline*
+        Fields: ~
+            left: Left tabline
+                Parameters: ~
+                    |staba-component-common|,
+                    |staba-component-tabline|,
+                    |staba-component-string|,
+                    |staba-component-function|
+
+            right: Right tabline
+                Parameters: ~
+                    |staba-component-common|,
+                    |staba-component-tabline|,
+                    |staba-component-string|,
+                    |staba-component-function|
+
+            View: Elements that should be displayed
+                Parameters: ~
+                    "tabs", "buffers"
+
+            bufinfo: Information about buffers
+                Parameters: ~
+                    "tab", "buffer", "modified", "unopened",
+                    |staba-component-string|,
+
+            active: Components of the active buffer
+                Parameters: ~
+                    |staba-component-common|,
+                    |staba-component-tabline|,
+                    |staba-component-string|,
+                    |staba-component-function|
+
+            tabs: Components of the tabs
+                Parameters: ~
+                    |staba-component-common|,
+                    |staba-component-tabline|,
+                    |staba-component-string|,
+                    |staba-component-function|
+
+            buffers: Components of the buffers
+                Parameters: ~
+                    |staba-component-common|,
+                    |staba-component-tabline|,
+                    |staba-component-string|,
+                    |staba-component-function|
+
+Parameters: ~
+        component(statuscolumn):                *staba-component-statuscolumn*
+            sign: 'signcolumn'
+            number: 'number'
+            fold: 'foldcolumn'
+            fold_ex: treesitter.foldexpr
+
+        component(statusline):                    *staba-component-statusline*
+            diagnostics: Lsp diagnostics
+
+        component(tabline):                          *staba-component-tabline*
+            bufinfo: Buffer information
+            parent: Parent directory name of the current file
+            nav_key: Navigation key associated with the tab
+            modified: Buffer with changes
+            readonly: Write-protected buffer
+            namestate: Buffer name with highlight
+
+        component(statusline, tabline):               *staba-component-common*
+            staba_logo: Display staba.nvim logo mark
+            search_count: Displays the number of items searched
+            devicon: Buffer extension icon
+            encoding: Character encoding of the current buffer
+            position: Cursor position of the window
+            noice_command: Last message
+            noice_message: 'showcmd'
+            noice_mode: 'showmode'
+            noice_search: Search count
+
+        string:                                       *staba-component-string*
+            Strings other than components are output as is
+
+        function:                                   *staba-component-function*
+            Register a function name as a component
+
+------------------------------------------------------------------------------
+MAPPING                                                        *staba-mapping*
+
+<Plug>(staba-pick)
+
+            This allows you to select a buffer via navigation-key.
+            When using a single key, it will open in the current buffer, but
+            if the modifier key Shift is pressed, it will open horizontally,
+            and if Ctrl is pressed, it will open vertically.
+
+            e.g:
+              <mapped-key>[navigation-key]
+                  This opens a buffer in the current window.
+
+              <mapped-key>[Shift + navigation-key]
+                  This opens a buffer in a horizontal split of the window.
+
+              <mapped-key>[Ctrl + navigation-key]
+                  This opens a buffer in a vertical split of the window.
+
+<Plug>(staba-delete-current)
+
+            This will delete the current buffer.
+
+<Plug>(staba-delete-select)
+
+            This will delete a buffer you selected via label.
+
+<Plug>(staba-clean)
+
+            This deletes all unchanged buffers except for the current buffer
+            and scratch buffers.
+
+------------------------------------------------------------------------------
+HIGHLIGHT                                                    *staba-highlight*
+
+vi-mode ~
+
+*StabaInsertMode*
+*StabaVisualMode*
+*StabaSelectMode*
+*StabaReplaceMode*
+*StabaCmdlineMode*
+
+        Used for highlighting the current line.
+        Applied to |LineNr|, |CursorLineNr|, or |CursorLine|
+        according to the current vi-mode.
+
+Fade non-current windows ~
+
+*StabaNc*
+
+        Used for fading non-current windows.
+
+Statusline ~
+
+*StabaStatus*
+
+        Used for the background of status-line.
+
+*StabaStatusReverse*
+
+        The reverse color of |StabaStatus| (unused)
+
+*StabaStatusNC*
+
+        Used for the background of non-current status-line.
+
+Tabline ~
+
+*StabaTabFillReverse*
+
+        The reverse color of |TabLineFill| (unused)
+
+*StabaTabs*
+
+        Used for the labels of tabs that display tab names in tab-line.
+
+*StabaTabsReverse*
+
+        The reverse color of |StabaTabs|
+
+*StabaBuffers*
+
+        Used for the labels of tabs that display buffer names in tab-line.
+
+*StabaBuffersReverse*
+
+        The reverse color of |StabaBuffers|
+
+*StabaSpecial*
+
+        Used for unopened buffers in bufinfo.
+
+*StabaReadonly*
+
+        Used for the read-only state of the current buffer
+        and the names of non-current buffers.
+
+*StabaModified*
+
+        Used for buffers that have been modified.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
