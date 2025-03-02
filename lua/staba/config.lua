@@ -197,7 +197,9 @@ function M.setup(user_spec)
   local opts = {}
   opts.hlnames = HL_NAMES
   opts.nav_keys = user_spec.nav_keys or DEFAULT_NAV_KEYS
-  opts.mode_line = ('CursorLineNr'):find(user_spec.mode_line, 1, true) and user_spec.mode_line or nil
+  opts.mode_line = (type(user_spec.mode_line) == 'string' and ('CursorLineNr'):find(user_spec.mode_line, 1, true))
+      and user_spec.mode_line
+    or nil
   opts.no_name = user_spec.no_name or DEFAULT_NO_NAME
   opts.ignore_filetypes = vim.tbl_deep_extend('force', DEFAULT_IGNORE, user_spec.ignore_filetypes or {})
   opts.frame = vim.tbl_deep_extend('force', DEFAULT_FRAME, user_spec.frame or {})
