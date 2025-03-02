@@ -9,7 +9,6 @@ M.default = {
   bar = ui.bar.thin,
   bufinfo = ui.bufinfo.alphabet,
   fold = ui.fold.filled,
-  -- fold = ui.fold.outlined,
   fileformat = {
     dos = { symbol.os.dos, 'Changed' },
     mac = { symbol.os.mac, 'Removed' },

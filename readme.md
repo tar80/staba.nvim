@@ -48,6 +48,8 @@ optimizing and streamlining existing features. It is designed to be used with
 <summary> Click to see default configuration </summary>
 
 ```lua
+local ui = require('staba.icon.ui')
+
 require('staba').setup({
     enable_fade = true,
     enable_underline = true, -- used as a horizontal separator for each buffer.
@@ -88,20 +90,32 @@ require('staba').setup({
             '%* ',
         },
         active = { 'devicon', 'namestate' },
-        tabs = { '', '%#StabaTabs#', 'nav_key', '▍', 'namestate' },
-        buffers = { '', '%#StabaBuffers#', 'nav_key', '▍', 'namestate' },
+        tabs = {
+            self.frame.tabs_left,
+            '%#StabaTabs#',
+            'nav_key',
+            self.frame.tabs_left,
+            'namestate'
+        },
+        buffers = {
+            self.frame.buffers_left,
+            '%#StabaBuffers#',
+            'nav_key',
+            self.frame.buffers_left,
+            'namestate'
+        },
     },
     frame = {
-        tabs_left = {chr = '', hl = 'StabaTabsReverse'},
-        tabs_right = {chr = '▍', hl = 'StabaTabsReverse'},
-        buffers_left = {chr = '', hl = 'StabaBuffersReverse'},
-        buffers_right = {chr = '▍', hl = 'StabaBuffersReverse'},
-        statusline_left = {chr = '', hl = 'StabaStatusReverse'},
-        statusline_right = {chr = '', hl = 'StabaStatusReverse'}
+        tabs_left = '%#StabaTabsReverse#'..ui.frame.slant_d.left,
+        tabs_right = '%#StabaTabsReverse#'..ui.frame.bar.right,
+        buffers_left = '%#StabaBuffersReverse#'..ui.frame.slant_d.left,
+        buffers_right = '%#StabaBuffersReverse#'..ui.frame.bar.right,
+        statusline_left = '%#StabaStatusReverse#'..ui.frame.slant_u.left,
+        statusline_right = '%#StabaStatusReverse#'..ui.frame.slant_u.right
     },
     sep = {
-        normal_left ={chr = '', hl = 'TablineFill', suffix = '%* '},
-        normal_right ={chr = '', hl = 'TablineFill', suffix = '%* '}
+        normal_left = '%#TabLineFill#'..ui.sep.arrow.left..'%* '
+        normal_right = '%#TabLineFill#'..ui.sep.arrow.right..'%* '
     },
     icons = {
         logo ={ '', 'WarningMsg' },
@@ -141,7 +155,7 @@ The alternate buffer is always the second. The remaining space is filled with
 other buffers and tabs. The numbers on the left represent the total tab pages,
 total buffers, modified buffers, and hidden arglists, respectively.
 
-![tabline](https://github.com/user-attachments/assets/d412edd7-7a9c-4269-81b1-f995f3954aca)
+![tabline_details](https://github.com/user-attachments/assets/d412edd7-7a9c-4269-81b1-f995f3954aca)
 
 > [!IMPORTANT]
 > Access to the tabs is facilitated through a dedicated <Plug> keymaps.  

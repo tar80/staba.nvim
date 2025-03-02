@@ -92,14 +92,20 @@ local DEFAULT_TABLINE = {
     '%* ',
   },
   active = { 'devicon', 'namestate' },
-  tabs = { DEFAULT_FRAME.tabs_left, '%#StabaTabs#', 'nav_key', DEFAULT_FRAME.tabs_right, 'namestate' },
-  buffers = { DEFAULT_FRAME.buffers_left, '%#StabaBuffers#', 'nav_key', DEFAULT_FRAME.buffers_right, 'namestate' },
 }
 
 local DEFAULT_IGNORE = {
   statuscolumn = { 'qf', 'help', 'terminal' },
   statusline = { 'terminal' },
 }
+
+local function _set_tabline_tabs(frame_spec)
+  return { frame_spec.tabs_left, '%#StabaTabs#', 'nav_key', frame_spec.tabs_right, 'namestate' }
+end
+
+local function _set_tabline_buffers(frame_spec)
+  return { frame_spec.buffers_left, '%#StabaBuffers#', 'nav_key', frame_spec.buffers_right, 'namestate' }
+end
 
 local function _set_hl_fade()
   local hlgroups = {}
@@ -201,6 +207,12 @@ function M.setup(user_spec)
   if user_spec.enable_tabline then
     if user_spec.tabline then
       opts.tabline = vim.tbl_deep_extend('force', DEFAULT_TABLINE, user_spec.tabline or {})
+      if not opts.tabline.tabs then
+        opts.tabline.tabs = _set_tabline_tabs(opts.frame)
+      end
+      if not opts.tabline.buffers then
+        opts.tabline.buffers = _set_tabline_buffers(opts.frame)
+      end
     else
       opts.tabline = DEFAULT_TABLINE
     end

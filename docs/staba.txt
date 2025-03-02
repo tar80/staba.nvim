@@ -164,35 +164,44 @@ staba-tabline                                                  *staba-tabline*
               '%* ',
             },
             active = { 'devicon', 'namestate' },
-            tabs = { '', '%#StabaTabs#', 'nav_key', '▍', 'namestate' },
-            buffers = { '', '%#StabaBuffers#', 'nav_key', '▍', 'namestate' },
+            tabs = {
+              require('staba.icon.ui').frame.tabs_left,
+              '%#StabaTabs#',
+              'nav_key',
+              require('staba.icon.ui').frame.tabs_right,
+              'namestate'
+            },
+            buffers = {
+              require('staba.icon.ui').frame.buffers_left,
+              '%#StabaBuffers#',
+              'nav_key',
+              require('staba.icon.ui').frame.buffers_right,
+              'namestate'
+            },
         }
 
 staba-frame                                                      *staba-frame*
 
-        Specifies the icon text and highlight table to use for the frame
+        Specifies the icon character and highlight to use for the frame
 
-        Type: {[string]: {chr:string, hl:string}}
+        Type: {[string]: string}
         Default: {
-            tabs_left = {chr = '', hl = 'StabaTabsReverse'},
-            tabs_right = {chr = '▍', hl = 'StabaTabsReverse'},
-            buffers_left = {chr = '', hl = 'StabaBuffersReverse'},
-            buffers_right = {chr = '▍', hl = 'StabaBuffersReverse'},
-            statusline_left = {chr = '', hl = 'StabaStatusReverse'},
-            statusline_right = {chr = '', hl = 'StabaStatusReverse'},
+            tabs_left = '%#StabaTabsReverse#'..require('staba.icon.ui').frame.slant_d.left,
+            tabs_right = '%#StabaTabsReverse#'..require('staba.icon.ui').frame.bar.right,
+            buffers_left = '%#StabaBuffersReverse#'..require('staba.icon.ui').frame.slant_d.left,
+            buffers_right = '%#StabaBuffersReverse#'..require('staba.icon.ui').frame.bar.right,
+            statusline_left = '%#StabaStatusReverse#'..require('staba.icon.ui').frame.slant_u.left,
+            statusline_right = '%#StabaStatusReverse#'..require('staba.icon.ui').frame.slant_u.right
         }
 
 staba-sep                                                          *staba-sep*
 
-        Specifies the icon character, highlight, prefix, and suffix table
-        to use for the separator
+        Specifies the icon character and highlight to use for the separator
 
-        Type: {
-          [string]: {chr:string, hl:string, prefix:string, suffix:string}
-        }
+        Type: {[string]: string}
         Default: {
-            normal_left ={chr = '', hl = 'TablineFill', suffix = '%* '},
-            normal_right ={chr = '', hl = 'TablineFill', suffix = '%* '}
+            normal_left = '%#TabLineFill#'..require('staba.icon.ui').sep.arrow.left..'%* '
+            normal_right = '%#TabLineFill#'..require('staba.icon.ui').sep.arrow.right..'%* '
         }
 
 staba-icon                                                        *staba-icon*
