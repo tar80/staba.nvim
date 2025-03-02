@@ -93,8 +93,8 @@ staba-mode-line                                              *staba-mode-line*
 
         Sets the background color of the current line according to the mode.
 
-        Type: "LineNr" | "CursorLineNr" | "CursorLine"
-        Default: "LineNr"
+        Type: "LineNr" | "CursorLineNr" | "CursorLine" | nil
+        Default: nil
 
 staba-nav-keys                                                *staba-nav-keys*
 

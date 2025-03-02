@@ -228,7 +228,9 @@ Staba.nvim solves these problems.
 ![fade](https://github.com/user-attachments/assets/2e293c4c-a79f-42ee-93a5-d166d0ba783e)
 
 > [!NOTE]
-> If the fade function has been independently adjusted on other plugins, it may not function correctly.
+>
+> - For full functionality you need to omit `NormalNC` and `StatusLineNC` from your color scheme.
+> - If the fade function has been independently adjusted on other plugins, it may not function correctly.
 
 ## Underlines as Window Separators
 
