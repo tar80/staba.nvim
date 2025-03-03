@@ -1,4 +1,4 @@
-# :heavy_dollar_sign: staba.nvim
+# :heavy_dollar_sign: Staba.nvim
 
 ![staba](https://github.com/user-attachments/assets/e69d6102-4280-486e-8369-1017ddc35e93)
 
@@ -56,7 +56,7 @@ require('staba').setup({
     enable_statuscolumn = true,
     enable_statusline = true,
     enable_tabline = true,
-    mode_line = 'LineNr' -- choose from "LineNr"|"CursorLineNr"|"CursorLine"
+    mode_line = 'LineNr' -- choose from "LineNr"|"CursorLineNr"|"CursorLine" or nil
     nav_keys = 'asdfghjklzxcvnmweryuiop', -- for assigning to navigation keys
     no_name = '[No Name]' -- a buffer name for an empty buffer
     ignore_filetypes = {
@@ -144,6 +144,9 @@ require('staba').setup({
 })
 ```
 
+> [!NOTE]
+> Contains unused settings such as `sep`, `icons.status`
+
 </details>
 
 ## Tabline
@@ -212,7 +215,7 @@ require('staba').setup({
 
 This element allows for the display of fold markers, and line highlighting based
 on vi-mode. The fold marker display was created with reference to Snacks.nvim.
-While that implementation is highly functional and powerful, staba.nvim is designed to be simpler.
+While that implementation is highly functional and powerful, Staba.nvim is designed to be simpler.
 
 [statuscolumn](https://github.com/user-attachments/assets/3cfb2dee-ac2f-4664-8479-0156aa3f8192)
 
@@ -229,15 +232,15 @@ Staba.nvim solves these problems.
 
 > [!NOTE]
 >
-> - For full functionality you need to omit `NormalNC` and `StatusLineNC` from your color scheme.
+> - For full functionality you need to omit `NormalNC` and `StatusLineNC` from your colorscheme.
 > - If the fade function has been independently adjusted on other plugins, it may not function correctly.
 
 ## Underlines as Window Separators
 
 > [!CAUTION]
 > Underlines can be used as window separators, but may not work correctly on some
-> terminals. In such cases, the display can be adjusted by configuring the underline
-> settings in `fillchars` for `stl` and `stlnc`. However, if guisp does not work,
+> terminals. In such cases, the display can be adjusted by setting **_**(underscore)
+> to `stl` and `stlnc` in `fillchars`. However, if guisp does not work,
 > there does not seem to be a workaround.
 
 ![underline](https://github.com/user-attachments/assets/fb1d3d75-0668-4388-b362-6d2c685d9c23)
@@ -271,6 +274,7 @@ For example, here is a keymapping example:
 vim.keymap.set('n', 'gb', '<Plug>(staba-pick)')
 vim.keymap.set('n', '<C-w>1', '<Plug>(staba-cleanup)')
 vim.keymap.set('n', '<C-w>q', '<Plug>(staba-delete-select)')
+-- "q" must be removed from the `nav_key` value
 vim.keymap.set('n', '<C-w>qq', '<Plug>(staba-delete-current)')
 ```
 
