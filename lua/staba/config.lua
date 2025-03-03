@@ -77,7 +77,7 @@ local DEFAULT_STATUSLINE = {
   inactive = { left = {}, middle = { 'devicon', 'filename', '%*' }, right = {} },
 }
 local DEFAULT_TABLINE = {
-  left = { 'bufinfo', 'parent', '/ ' },
+  left = { 'bufinfo', 'parent', 'shellslash', ' ' },
   view = { 'buffers', 'tabs' },
   right = {},
   bufinfo = {
@@ -220,6 +220,7 @@ function M.setup(user_spec)
     end
     M.set_hl_tab = _set_hl_tab
     M.set_hl_tab(user_spec.enable_underline)
+    vim.go.showtabline = 2
   end
   if user_spec.enable_statusline then
     if user_spec.statusline then

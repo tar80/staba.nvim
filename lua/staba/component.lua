@@ -15,7 +15,7 @@ local function join_path(buf_status)
       local filename = util.extract_filename(buf_status.name)
       if buf_status.parent ~= '' then
         local parent = util.extract_filename(vim.fs.dirname(buf_status.name))
-        local sep = buf_status.shellslash and '/' or '\\'
+        local sep = buf_status.shellslash
         filename = parent .. sep .. filename
       end
       bufname = filename
@@ -26,6 +26,10 @@ end
 
 M.staba_logo = function()
   return icons.logo .. '%*'
+end
+
+M.shellslash = function(buf_info)
+  return buf_info.shellslash
 end
 
 ---@param buf_info BufInfo
@@ -64,8 +68,8 @@ end
 M.nav_key = function(buf_status, _)
   return buf_status.nav_key
 end
-M.parent = function(bufdata)
-  return ('%s '):format(util.extract_filename(bufdata.cwd))
+M.parent = function(buf_info)
+  return ('%s '):format(util.extract_filename(buf_info.cwd))
 end
 M.modified = function(buf_status, _)
   return buf_status.modified and icons.status.modify or icons.status.nomodify

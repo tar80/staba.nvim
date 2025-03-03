@@ -65,7 +65,7 @@ function M.decorate(cache)
     no_name = no_name,
     bufnr = cur_buf,
     buftype = vim.api.nvim_get_option_value('buftype', { buf = cur_buf }),
-    shellslash = vim.api.nvim_get_option_value('shellslash', {}),
+    shellslash = vim.api.nvim_get_option_value('shellslash', {}) and '/' or '\\',
     mode = cache:get('mode'),
   }
   if vim.list_contains(status_ignore, vim.bo[cur_buf].filetype) then

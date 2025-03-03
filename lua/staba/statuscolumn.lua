@@ -2,7 +2,8 @@ local M = {}
 
 ---@type StatusColumnTable
 local expression
-local has_fold_ex = false
+local _has_fold_ex = false
+local _fold_icon = {}
 
 local formatter = {
   active = {
@@ -20,7 +21,8 @@ local formatter = {
 }
 
 ---@param statuscolumn statusColumn[]
-function M.cache_parsed_expression(statuscolumn)
+---@param fold_icon IconsFold
+function M.cache_parsed_expression(statuscolumn, fold_icon)
   local active = ''
   local inactive = ''
   local blank_space = statuscolumn[#statuscolumn] == 'number' and ' ' or ''
@@ -30,7 +32,8 @@ function M.cache_parsed_expression(statuscolumn)
   end)
 
   expression = { active = active .. blank_space, inactive = inactive .. blank_space }
-  has_fold_ex = vim.list_contains(statuscolumn, 'fold_ex')
+  _has_fold_ex = vim.list_contains(statuscolumn, 'fold_ex')
+  _fold_icon = fold_icon
 end
 
 ---@param fold IconsFold
@@ -54,15 +57,14 @@ end
 function M.decorate(cache)
   ---@type string
   local statuscolumn
-  local fold_icon = cache:get('icons').fold
   local bufdata = cache:get('bufdata')
-  local marker = has_fold_ex and fold_icon.blank or ''
+  local marker = _has_fold_ex and _fold_icon.blank or ''
   local winid = tonumber(vim.g.actual_curwin) --[[@as integer]]
   local bufnr = vim.api.nvim_win_get_buf(winid)
 
   if bufdata.actual_bufnr == bufnr then
-    if has_fold_ex then
-      local fold_marker = get_folding(bufdata.has_tsnode, fold_icon, marker)
+    if _has_fold_ex then
+      local fold_marker = get_folding(_fold_icon, marker)
       statuscolumn = expression.active:format(fold_marker)
     else
       statuscolumn = expression.active:format()

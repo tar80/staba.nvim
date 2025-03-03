@@ -75,7 +75,7 @@ require('staba').setup({
         inactive = { left = {}, middle = { 'devicon', 'filename', '%*' }, right = {} },
     },
     tabline = {
-        left = { 'bufinfo', 'parent', '/ ' },
+        left = { 'bufinfo', 'parent', 'shellslash', ' ' },
         right = {},
         view = { 'buffers', 'tabs' },
         bufinfo = {

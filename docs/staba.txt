@@ -324,6 +324,7 @@ Parameters: ~
             modified: Buffer with changes
             readonly: Write-protected buffer
             namestate: Buffer name with highlight
+            shellslash: Path separator determined from current shellslash
 
         component(statusline, tabline):               *staba-component-common*
             staba_logo: Display staba.nvim logo mark

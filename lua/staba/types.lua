@@ -3,6 +3,7 @@
 ---@alias tabLine 'bufstats'|'parent'
 ---@alias tabLineBuffer 'devicon'|'nav_key'|'filename'|'modified'|'readonly'|'namestate'
 ---@alias lineNr 'LineNr'|'CursorLineNr'|'CursorLine'
+---@alias shellSlash '/'|'\\'
 ---@alias statusColumn 'number'|'sign'|'fold'|'fold_ex'
 ---@alias NavID {[string]:integer}
 ---@alias BufInfo {tab:integer,buffer:integer,modified:integer,unopened:integer,cwd:string,format:string[]}
@@ -11,6 +12,7 @@
 ---@alias StatuslineTable {active:StatuslineSection,inactive:StatuslineSection}
 ---@alias StatusColumnTable {active:string,inactive:string}
 ---@alias IconDetail {chr:string,hlgroup:string}
+---@alias IconsFold {open:string,close:string,blank:string}
 
 ---@generic T : string
 ---@alias CacheGet fun(self:Cache,name:T):self[T]
@@ -96,7 +98,7 @@
 ---@field logo string
 ---@field bar string
 ---@field bufinfo {tab:string,buffer:string,modified:string,unopened:string}
----@field fold {open:string,close:string,blank:string}
+---@field fold IconsFold
 ---@field fileformat {dos:string[],mac:string[],unix:string[]}
 ---@field severity {Error:string[],Warn:string[],Hint:string[],Info:string[]}
 ---@field status {edit:string,lock:string,unlock:string,modify:string,nomodify:string}
@@ -109,7 +111,7 @@
 ---@field buftype string
 ---@field modified integer
 ---@field readonly boolean
----@field shellslash boolean
+---@field shellslash shellSlash
 ---@field nav_key string
 ---@field alternate? boolean
 ---@field mode? string[]

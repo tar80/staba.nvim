@@ -29,7 +29,7 @@ function M.setup(user_spec)
     end
   end
   if opts.statuscolumn then
-    require('staba.statuscolumn').cache_parsed_expression(opts.statuscolumn)
+    require('staba.statuscolumn').cache_parsed_expression(opts.statuscolumn, cache:get('icons').fold)
     vim.o.statuscolumn = '%{%v:lua.staba.statuscolumn()%}'
     function _G.staba.statuscolumn()
       return require('staba.statuscolumn').decorate(cache)

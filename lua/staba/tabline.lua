@@ -122,15 +122,16 @@ function M.decorate(cache)
   local buflist = cache:get('buflist')
   local bufdata = cache:get('bufdata')
   local tabpage = get_tabpage_details()
-  local shellslash = vim.api.nvim_get_option_value('shellslash', {})
+  local shellslash = vim.api.nvim_get_option_value('shellslash', {}) and '/' or '\\'
   ---@type BufInfo
   local buf_info = {
     buffer = 0,
     modified = 0,
     unopened = 0,
     cwd = bufdata.cwd,
-    tab = vim.fn.tabpagenr('$'),
     format = expression.bufinfo,
+    shellslash = shellslash,
+    tab = vim.fn.tabpagenr('$'),
   }
   local left, right, view, active, alternate = '', '', '', '', ''
   local list = { tabs = '', buffers = '' }
