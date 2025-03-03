@@ -12,6 +12,7 @@ local register_keys ---@type string[]
 local no_name ---@type string
 local tab_ignore ---@type table
 
+---@return {current:string,contains:string[]}
 local function get_tabpage_details()
   local current = {}
   local contains = {}
@@ -23,6 +24,16 @@ local function get_tabpage_details()
     contains = vim.list_extend(contains, buflist)
   end
   return { current = current, contains = contains }
+end
+
+---@param bufnr integer
+---@return string? unopened
+local function unopened_arglist_file(bufnr)
+  if not vim.api.nvim_buf_is_loaded(bufnr) then
+    return vim.iter(vim.fn.argv()):find(function(name)
+      return vim.fn.bufnr(name) == bufnr
+    end)
+  end
 end
 
 local function parse_component(tbl, buf_info)
@@ -116,7 +127,7 @@ function M.decorate(cache)
   local buf_info = {
     buffer = 0,
     modified = 0,
-    listed = 0,
+    unopened = 0,
     cwd = bufdata.cwd,
     tab = vim.fn.tabpagenr('$'),
     format = expression.bufinfo,
@@ -162,8 +173,8 @@ function M.decorate(cache)
     if modified then
       buf_info.modified = buf_info.modified + 1
     end
-    if not vim.api.nvim_buf_is_loaded(bufnr) then
-      buf_info.listed = buf_info.listed + 1
+    if unopened_arglist_file(bufnr) then
+      buf_info.unopened = buf_info.unopened + 1
     end
 
     if is_active then

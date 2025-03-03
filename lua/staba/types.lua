@@ -5,7 +5,7 @@
 ---@alias lineNr 'LineNr'|'CursorLineNr'|'CursorLine'
 ---@alias statusColumn 'number'|'sign'|'fold'|'fold_ex'
 ---@alias NavID {[string]:integer}
----@alias BufInfo {tab:integer,buffer:integer,modified:integer,listed:integer,cwd:string,format:string[]}
+---@alias BufInfo {tab:integer,buffer:integer,modified:integer,unopened:integer,cwd:string,format:string[]}
 ---@alias TablineTable {bufinfo:BufInfo,left:tabLine[],right:tabLine[],view:listView[],active:tabLineBuffer[],tabs:tabLineBuffer[],buffers:tabLineBuffer[]}
 ---@alias StatuslineSection {left:string[],middle:string[],right:string[]}
 ---@alias StatuslineTable {active:StatuslineSection,inactive:StatuslineSection}

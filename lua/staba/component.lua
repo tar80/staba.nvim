@@ -43,7 +43,7 @@ M.bufinfo = function(buf_info)
     elseif element == 'modified' then
       value = label.modified .. buf_info.modified
     elseif element == 'unopened' then
-      value = label.unopened .. buf_info.listed
+      value = label.unopened .. buf_info.unopened
     else
       value = tostring(element)
     end
