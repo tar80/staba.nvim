@@ -46,7 +46,6 @@
 ---@field winid integer
 ---@field actual_bufnr integer
 ---@field alt_bufnr integer
----@field has_tsnode TSNode|false
 
 ---@class Options
 ---@field enable_fade boolean

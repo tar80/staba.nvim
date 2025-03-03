@@ -63,6 +63,7 @@ function M.setup(UNIQUE_NAME, opts)
       end,
     })
   end
+
   local fade_ignore = opts.ignore_filetypes.fade or {}
   vim.api.nvim_create_autocmd('WinEnter', {
     desc = with_plugin_name('%s: set window highlights'),

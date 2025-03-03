@@ -127,21 +127,6 @@ function M:add_to_buflist(bufnr)
   }
 end
 
--- for compatibility version 0.10
-local _ts_get_node = (function ()
-  local get_node = vim.treesitter.get_node
-  local f ---@type function
-  if vim.fn.has('nvim-0.11') == 1 then
-    f = get_node
-  else
-    f = function ()
-      local _, ts_node = pcall(get_node)
-      return ts_node
-    end
-  end
-  return f
-end)()
-
 function M:set_bufdata(bufnr)
   ---@type BufData
   self.bufdata = {
@@ -149,7 +134,6 @@ function M:set_bufdata(bufnr)
     winid = vim.api.nvim_tabpage_get_win(0),
     actual_bufnr = bufnr,
     alt_bufnr = vim.fn.bufnr('#'),
-    has_tsnode = _ts_get_node() or false
   }
 end
 

@@ -33,11 +33,17 @@ function M.cache_parsed_expression(statuscolumn)
   has_fold_ex = vim.list_contains(statuscolumn, 'fold_ex')
 end
 
+---@param fold IconsFold
+---@param marker string Icon string
 ---@return string fold-marker
-local function get_folding(has_tsnode, fold, marker)
-  if vim.fn.foldclosed(vim.v.lnum) >= 0 then
+local function get_folding(fold, marker)
+  local is_actual_line = vim.v.virtnum ~= 0
+  local lnum = vim.v.lnum
+  if vim.fn.foldclosed(lnum) >= 0 then
     marker = fold.close
-  elseif has_tsnode and tostring(vim.treesitter.foldexpr(vim.v.lnum)):sub(1, 1) == '>' then
+
+  ---@source https://github.com/folke/snacks.nvim/issues/1445
+  elseif is_actual_line and  vim.fn.foldlevel(lnum) > vim.fn.foldlevel(lnum - 1) then
     marker = fold.open
   end
   return marker
