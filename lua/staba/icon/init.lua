@@ -22,9 +22,11 @@ M.default = {
   },
   status = {
     lock = { symbol.status.lock, 'StabaReadonly' },
-    unlock = { symbol.status.unlock },
+    unlock = symbol.status.unlock,
     modify = { symbol.status.modify, 'StabaModified' },
-    nomodify = { symbol.status.nomodify },
+    nomodify = symbol.status.nomodify,
+    unopen = { symbol.status.unopen, 'StabaSpecial' },
+    open = symbol.status.open,
   },
 }
 

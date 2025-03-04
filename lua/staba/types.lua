@@ -1,7 +1,7 @@
 ---@alias expressions 'tabline'|'statusline'|'statuscolumn'|'fade'
 ---@alias listView 'tabs'|'buffers'
 ---@alias tabLine 'bufstats'|'parent'
----@alias tabLineBuffer 'devicon'|'nav_key'|'filename'|'modified'|'readonly'|'namestate'
+---@alias tabLineBuffer 'devicon'|'nav_key'|'filename'|'modified'|'readonly'|'unopened'|'namestate'
 ---@alias lineNr 'LineNr'|'CursorLineNr'|'CursorLine'
 ---@alias shellSlash '/'|'\\'
 ---@alias statusColumn 'number'|'sign'|'fold'|'fold_ex'
@@ -101,7 +101,7 @@
 ---@field fold IconsFold
 ---@field fileformat {dos:string[],mac:string[],unix:string[]}
 ---@field severity {Error:string[],Warn:string[],Hint:string[],Info:string[]}
----@field status {edit:string,lock:string,unlock:string,modify:string,nomodify:string}
+---@field status {edit:string,lock:string,unlock:string,modify:string,nomodify:string,unopen:string,open:string}
 
 ---@class BufferStatus
 ---@field parent string
@@ -111,6 +111,7 @@
 ---@field buftype string
 ---@field modified integer
 ---@field readonly boolean
+---@field unopened string?
 ---@field shellslash shellSlash
 ---@field nav_key string
 ---@field alternate? boolean

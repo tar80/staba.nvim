@@ -77,6 +77,9 @@ end
 M.readonly = function(buf_status, _)
   return buf_status.readonly and icons.status.lock or icons.status.unlock
 end
+M.unopened = function(buf_status, _)
+  return buf_status.unopened and icons.status.unopen or icons.status.open
+end
 M.filename = function(buf_status, _)
   return join_path(buf_status)
 end
@@ -84,6 +87,8 @@ M.namestate = function(buf_status, is_active)
   local ret = join_path(buf_status)
   if buf_status.modified then
     ret = '%#StabaModified#' .. ret
+  elseif buf_status.unopened then
+    ret = '%#StabaSpecial#' .. ret
   elseif not is_active or buf_status.readonly then
     ret = '%#StabaReadonly#' .. ret
   else

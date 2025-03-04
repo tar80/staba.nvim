@@ -11,6 +11,8 @@ M.status = {
   unlock = '  ',
   modify = '󰐖',
   nomodify = '  ',
+  unopen = '󰌖',
+  open = '  ',
 }
 M.logo = {
   nvim = '',

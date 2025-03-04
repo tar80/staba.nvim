@@ -134,11 +134,12 @@ require('staba').setup({
             Info = { '', 'DiagnosticSignInfo'  },
         },
         status = {
-            edit = '󰤌',
-            lock = '󰍁',
+            lock = { '󰍁', 'StabaReadonly' },
             unlock = '  ',
-            modify = '󰐖',
+            modify = { '󰐖', 'StabaModified' },
             nomodify = '  ',
+            unopen = { '󰌖', 'StabaSpecial' },
+            open = '  ',
         },
     },
 })
@@ -239,7 +240,7 @@ Staba.nvim solves these problems.
 
 > [!CAUTION]
 > Underlines can be used as window separators, but may not work correctly on some
-> terminals. In such cases, the display can be adjusted by setting **_**(underscore)
+> terminals. In such cases, the display can be adjusted by setting `_`(underscore)
 > to `stl` and `stlnc` in `fillchars`. However, if guisp does not work,
 > there does not seem to be a workaround.
 

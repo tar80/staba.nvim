@@ -154,6 +154,7 @@ function M.decorate(cache)
     local modified = vim.api.nvim_get_option_value('modified', { buf = bufnr })
     local readonly = vim.api.nvim_get_option_value('readonly', { buf = bufnr })
       or not vim.api.nvim_get_option_value('modifiable', { buf = bufnr })
+    local unopened = unopened_arglist_file(bufnr)
 
     ---@type BufferStatus
     local buf_status = {
@@ -165,6 +166,7 @@ function M.decorate(cache)
       buftype = buftype,
       modified = modified,
       readonly = readonly,
+      unopened = unopened,
       shellslash = shellslash,
       tabnr = tabnr,
       nav_key = '',
@@ -174,7 +176,7 @@ function M.decorate(cache)
     if modified then
       buf_info.modified = buf_info.modified + 1
     end
-    if unopened_arglist_file(bufnr) then
+    if unopened then
       buf_info.unopened = buf_info.unopened + 1
     end
 

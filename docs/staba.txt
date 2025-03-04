@@ -226,11 +226,12 @@ staba-icon                                                        *staba-icon*
                 Info = { '''DiagnosticSignInfo'  },
             },
             status = {
-                edit = '󰤌',
-                lock = '󰍁',
+                lock = { '󰍁', 'StabaReadonly' },
                 unlock = '  ',
-                modify = '󰐖',
+                modify = { '󰐖', 'StabaModified' },
                 nomodify = '  ',
+                unopen = { '󰌖', 'StabaSpecial' },
+                open = '  '
             },
         }
 
