@@ -80,7 +80,6 @@ local DEFAULT_STATUSLINE = {
 }
 local DEFAULT_TABLINE = {
   left = { 'bufinfo', 'parent', 'shellslash', ' ' },
-  view = { 'buffers', 'tabs' },
   right = {},
   bufinfo = {
     '%#StabaTabsReverse#',
@@ -94,6 +93,7 @@ local DEFAULT_TABLINE = {
     '%* ',
   },
   active = { 'devicon', 'namestate' },
+  view = { 'buffers', 'tabs' },
 }
 
 local DEFAULT_IGNORE = {
@@ -131,6 +131,7 @@ local function _set_hl_mode(mode_line)
   local options = { bold = linenr.bold, italic = linenr.italic }
   hlgroups[HL_NAMES.mode_i] = vim.tbl_extend('keep', HL_DETAILS.mode_i, options)
   hlgroups[HL_NAMES.mode_v] = vim.tbl_extend('keep', HL_DETAILS.mode_v, options)
+  hlgroups[HL_NAMES.mode_vb] = vim.tbl_extend('keep', HL_DETAILS.mode_vb, options)
   hlgroups[HL_NAMES.mode_s] = vim.tbl_extend('keep', HL_DETAILS.mode_s, options)
   hlgroups[HL_NAMES.mode_r] = vim.tbl_extend('keep', HL_DETAILS.mode_r, options)
   hlgroups[HL_NAMES.mode_c] = vim.tbl_extend('keep', HL_DETAILS.mode_c, options)
