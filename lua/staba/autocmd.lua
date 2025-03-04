@@ -27,7 +27,7 @@ function M.setup(UNIQUE_NAME, opts)
       c = opts.hlnames.mode_c,
       t = opts.hlnames.mode_c,
       v = opts.hlnames.mode_v,
-      ['\x16'] = opts.hlnames.mode_v,
+      ['\x16'] = opts.hlnames.mode_vb,
     }
     vim.api.nvim_create_autocmd('ModeChanged', {
       desc = with_plugin_name('%s: mode LineNr'),

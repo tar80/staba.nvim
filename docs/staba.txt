@@ -383,6 +383,7 @@ vi-mode ~
 
 *StabaInsertMode*
 *StabaVisualMode*
+*StabaVisualBlockMode*
 *StabaSelectMode*
 *StabaReplaceMode*
 *StabaCmdlineMode*

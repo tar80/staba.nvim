@@ -119,6 +119,7 @@
 ---@class HlNames
 ---@field mode_i string
 ---@field mode_v string
+---@field mode_vb string
 ---@field mode_s string
 ---@field mode_r string
 ---@field mode_c string

@@ -10,6 +10,7 @@ local HL_NAMES = {
   -- mode
   mode_i = 'StabaInsertMode',
   mode_v = 'StabaVisualMode',
+  mode_vb = 'StabaVisualBlockMode',
   mode_s = 'StabaSelectMode',
   mode_r = 'StabaReplaceMode',
   mode_c = 'StabaCmdlineMode',
@@ -36,6 +37,7 @@ local HL_NAMES = {
 local HL_DETAILS = {
   mode_i = { fg = 'Cyan' },
   mode_v = { fg = 'Blue' },
+  mode_vb = { fg = 'White', bg = 'Blue' },
   mode_s = { fg = 'Magenta' },
   mode_r = { fg = 'Magenta' },
   mode_c = { fg = 'NONE' },
@@ -173,7 +175,7 @@ local function _set_hl_status(enable_underline)
     'StatusLineNC',
     { fg = normal_nc.fg, bg = normal_nc.bg, sp = win_sep.fg, underline = enable_underline }
   )
-  hlgroups[HL_NAMES.status] = { fg = statusline.fg, bg = statusline.bg, sp = win_sep.fg, underline = enable_underline }
+  hlgroups[HL_NAMES.status] = { fg = statusline.fg, sp = win_sep.fg, underline = enable_underline }
   hlgroups[HL_NAMES.status_reverse] = { fg = statusline.bg, bg = statusline.fg, sp = win_sep.fg }
   helper.set_hl(hlgroups)
 end
