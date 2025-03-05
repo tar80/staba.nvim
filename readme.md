@@ -279,6 +279,23 @@ vim.keymap.set('n', '<C-w>q', '<Plug>(staba-delete-select)')
 vim.keymap.set('n', '<C-w>qq', '<Plug>(staba-delete-current)')
 ```
 
+> [!HINT]
+> By default, `<Plug>(staba-pick)` splits the window above for horizontal splits
+> and to the left for vertical splits. To temporarily change this behavior,  
+> configure it as follows:
+
+```lua
+vim.keymap.set('n', 'gB' function()
+    vim.go.splitbelow = true
+    vim.go.splitright = true
+    vim.api.nvim_input('<Plug>(staba-pick)')
+    vim.defer_fn(function()
+        vim.go.splitbelow = false
+        vim.go.splitright = false
+    end, 1000)
+end)
+```
+
 ## Acknowledgments
 
 This plugin was influenced by the following plugins.
