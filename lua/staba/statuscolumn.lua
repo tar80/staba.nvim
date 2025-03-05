@@ -8,13 +8,13 @@ local _fold_icon = {}
 local formatter = {
   active = {
     sign = '%%#SignColumn#%%s',
-    number = '%%l',
+    number = '%%{%%%s==win_getid()?"%%l":"%%=".v:lnum%%}',
     fold = '%%#FoldColumn#%%C',
     fold_ex = '%%#FoldColumn#%s',
   },
   inactive = {
     sign = '%%#SignColumn#%%s',
-    number = '%%=%%{v:lnum}',
+    number = '%%l',
     fold = '%%#FoldColumn#%%C',
     fold_ex = '%%#FoldColumn#%s',
   },
@@ -65,9 +65,9 @@ function M.decorate(cache)
   if bufdata.actual_bufnr == bufnr then
     if _has_fold_ex then
       local fold_marker = get_folding(_fold_icon, marker)
-      statuscolumn = expression.active:format(fold_marker)
+      statuscolumn = expression.active:format(winid, fold_marker)
     else
-      statuscolumn = expression.active:format()
+      statuscolumn = expression.active:format(winid)
     end
   else
     statuscolumn = expression.inactive:format(marker)

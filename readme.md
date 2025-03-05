@@ -118,7 +118,7 @@ require('staba').setup({
         normal_right = '%#TabLineFill#'..ui.sep.arrow.right..'%* '
     },
     icons = {
-        logo ={ '', 'WarningMsg' },
+        logo = { '', 'WarningMsg' },
         bar = '│',
         bufinfo = { tab = 'ᵀ', buffer = 'ᴮ', modified = 'ᴹ', unopened = 'ᵁ' },
         fold = { open = '󰍝', close = '󰍟', blank = ' ' }, -- "blank" is provided for adjusting ambiwidth.
@@ -145,7 +145,7 @@ require('staba').setup({
 })
 ```
 
-> [!NOTE]
+> [!HINT]
 > Contains unused settings such as `sep`, `icons.status`
 
 </details>

@@ -31,7 +31,7 @@ function M.setup(PLUGIN_NAME)
     else
       vim.cmd.close({ mods = { emsg_silent = true } })
     end
-  end)
+  end, { desc = with_plugin_name('[%s] unload current buffer') })
 
   vim.keymap.set('n', '<Plug>(staba-delete-select)', function()
     local input = vim.fn.getcharstr(-1, { simplify = true })
@@ -45,7 +45,7 @@ function M.setup(PLUGIN_NAME)
       vim.api.nvim_buf_delete(bufnr, { unload = false })
     end
     vim.cmd.redrawtabline()
-  end, { desc = with_plugin_name('[%s] unload buffer') })
+  end, { desc = with_plugin_name('[%s] unload select buffer') })
 
   vim.keymap.set('n', '<Plug>(staba-cleanup)', function()
     local current_bufnr = vim.api.nvim_win_get_buf(0)

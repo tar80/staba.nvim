@@ -50,6 +50,7 @@ function M.setup(UNIQUE_NAME, opts)
   end
 
   if opts.enable_fade then
+    local fade_ignore = opts.ignore_filetypes.fade or {}
     vim.api.nvim_create_autocmd('WinClosed', {
       desc = with_plugin_name('%s: reset alternate window highlights'),
       group = augroup,
@@ -62,29 +63,36 @@ function M.setup(UNIQUE_NAME, opts)
         end
       end,
     })
-  end
-
-  local fade_ignore = opts.ignore_filetypes.fade or {}
-  vim.api.nvim_create_autocmd('WinEnter', {
-    desc = with_plugin_name('%s: set window highlights'),
-    group = augroup,
-    callback = function(ev)
-      if not helper.is_floating_win(0) then
-        cache:set_bufdata(ev.buf)
-        if opts.enable_fade then
+    vim.api.nvim_create_autocmd('WinEnter', {
+      desc = with_plugin_name('%s: set window highlights'),
+      group = augroup,
+      callback = function(ev)
+        if not helper.is_floating_win(0) then
+          cache:set_bufdata(ev.buf)
           vim.schedule(function()
             if not vim.list_contains(fade_ignore, vim.bo.filetype) then
               vim.opt_local.winhighlight:append('NormalNC:StabaNC,StatuslineNC:StabaStatusNC')
             end
           end)
+        else
+          vim.api.nvim_win_call(cache.bufdata.winid, function()
+            vim.opt_local.winhighlight:append('NormalNC:Normal,StatuslineNC:StabaStatus')
+          end)
         end
-      elseif opts.enable_fade then
-        vim.api.nvim_win_call(cache.bufdata.winid, function()
-          vim.opt_local.winhighlight:append('NormalNC:Normal,StatuslineNC:StabaStatus')
-        end)
-      end
-    end,
-  })
+      end,
+    })
+  else
+    vim.api.nvim_create_autocmd('WinEnter', {
+      desc = with_plugin_name('%s: set window highlights'),
+      group = augroup,
+      callback = function(ev)
+        if not helper.is_floating_win(0) then
+          cache:set_bufdata(ev.buf)
+        end
+      end,
+    })
+  end
+
   vim.api.nvim_create_autocmd('BufAdd', {
     desc = with_plugin_name('%s: add listed buffer for tabline'),
     group = augroup,
