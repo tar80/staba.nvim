@@ -36,17 +36,22 @@ function M.cache_parsed_expression(statuscolumn, fold_icon)
   _fold_icon = fold_icon
 end
 
+local function _is_open_fold(lnum, prev)
+  if vim.v.virtnum == 0 then
+    local end_fold = vim.fn.foldclosedend(prev) == prev and 1 or 0
+    local prev_level = vim.fn.foldlevel(prev) - end_fold
+    return vim.fn.foldlevel(lnum) > prev_level
+  end
+end
+
 ---@param fold IconsFold
 ---@param marker string Icon string
 ---@return string fold-marker
 local function get_folding(fold, marker)
-  local is_actual_line = vim.v.virtnum ~= 0
   local lnum = vim.v.lnum
-  if vim.fn.foldclosed(lnum) >= 0 then
+  if vim.fn.foldclosed(lnum) >= lnum then
     marker = fold.close
-
-  ---@source https://github.com/folke/snacks.nvim/issues/1445
-  elseif is_actual_line and  vim.fn.foldlevel(lnum) > vim.fn.foldlevel(lnum - 1) then
+  elseif _is_open_fold(lnum, lnum - 1) then
     marker = fold.open
   end
   return marker

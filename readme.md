@@ -145,7 +145,7 @@ require('staba').setup({
 })
 ```
 
-> [!HINT]
+> [!TIP]
 > Contains unused settings such as `sep`, `icons.status`
 
 </details>
@@ -279,7 +279,7 @@ vim.keymap.set('n', '<C-w>q', '<Plug>(staba-delete-select)')
 vim.keymap.set('n', '<C-w>qq', '<Plug>(staba-delete-current)')
 ```
 
-> [!HINT]
+> [!TIP]
 > By default, `<Plug>(staba-pick)` splits the window above for horizontal splits
 > and to the left for vertical splits. To temporarily change this behavior,  
 > configure it as follows:
