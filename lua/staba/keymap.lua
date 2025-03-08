@@ -23,11 +23,10 @@ function M.setup(PLUGIN_NAME)
   end, { desc = with_plugin_name('[%s] pick a buffer') })
 
   vim.keymap.set('n', '<Plug>(staba-delete-current)', function()
-    local bufnr = vim.api.nvim_get_current_buf()
-    if not vim.bo[bufnr].buflisted then
-      vim.api.nvim_buf_delete(bufnr, { force = true })
+    if not vim.api.nvim_get_option_value('buflisted', {}) then
+      vim.api.nvim_buf_delete(0, { force = true })
     elseif #cache.buflist > 1 then
-      pcall(vim.api.nvim_buf_delete, bufnr, { unload = false })
+      pcall(vim.api.nvim_buf_delete, 0, { unload = false })
     else
       vim.cmd.close({ mods = { emsg_silent = true } })
     end
@@ -50,7 +49,11 @@ function M.setup(PLUGIN_NAME)
   vim.keymap.set('n', '<Plug>(staba-cleanup)', function()
     local current_bufnr = vim.api.nvim_win_get_buf(0)
     vim.iter(vim.api.nvim_list_bufs()):each(function(bufnr)
-      if vim.bo[bufnr].buftype ~= 'nofile' and not vim.bo[bufnr].modified and current_bufnr ~= bufnr then
+      if
+        vim.api.nvim_get_option_value('buftype', { buf = bufnr }) ~= 'nofile'
+        and not vim.api.nvim_get_option_value('modified', { buf = bufnr })
+        and current_bufnr ~= bufnr
+      then
         vim.api.nvim_buf_delete(bufnr, { unload = false })
       end
     end)

@@ -223,7 +223,7 @@ function M.setup(user_spec)
     end
     M.set_hl_tab = _set_hl_tab
     M.set_hl_tab(user_spec.enable_underline)
-    vim.go.showtabline = 2
+    vim.api.nvim_set_var('showtabline', 2)
   end
   if user_spec.enable_statusline then
     if user_spec.statusline then

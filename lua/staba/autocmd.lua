@@ -70,7 +70,7 @@ function M.setup(UNIQUE_NAME, opts)
         if not helper.is_floating_win(0) then
           cache:set_bufdata(ev.buf)
           vim.schedule(function()
-            if not vim.list_contains(fade_ignore, vim.bo.filetype) then
+            if not vim.list_contains(fade_ignore, vim.api.nvim_get_option_value('filetype', {})) then
               vim.opt_local.winhighlight:append('NormalNC:StabaNC,StatuslineNC:StabaStatusNC')
             end
           end)

@@ -68,7 +68,8 @@ function M.decorate(cache)
     shellslash = vim.api.nvim_get_option_value('shellslash', {}) and '/' or '\\',
     mode = cache:get('mode'),
   }
-  if vim.list_contains(status_ignore, vim.bo[cur_buf].filetype) then
+  local ft = vim.api.nvim_get_option_value('filetype', { buf = cur_buf })
+  if vim.list_contains(status_ignore, ft) then
     return ''
   elseif actual_win == cur_win then
     cache.last_statusline_win = cur_win
