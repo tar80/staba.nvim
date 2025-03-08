@@ -104,17 +104,23 @@ function M.setup(UNIQUE_NAME, opts)
     desc = with_plugin_name('%s: disable decorations'),
     group = augroup,
     callback = function(ev)
-      local ignore_filetypes = cache:get('ignore_filetypes')
-      local ft = vim.bo[ev.buf].filetype
-      if vim.list_contains(ignore_filetypes.statuscolumn, ft) then
-        vim.wo.statuscolumn = ''
-      end
       if not helper.is_floating_win(0) then
         cache:set_bufdata(ev.buf)
       end
     end,
   })
 
+  vim.api.nvim_create_autocmd('Filetype', {
+    desc = with_plugin_name('%s: disable statuscolumn'),
+    group = augroup,
+    callback = function(ev)
+      local ignore_filetypes = opts.ignore_filetypes
+      if vim.list_contains(ignore_filetypes.statuscolumn, ev.match) then
+        vim.api.nvim_set_option_value('statuscolumn', '', {})
+        vim.api.nvim_set_option_value('signcolumn', 'auto', {})
+      end
+    end,
+  })
   vim.api.nvim_create_autocmd('ColorScheme', {
     desc = with_plugin_name('%s: get set hlgroups'),
     group = augroup,

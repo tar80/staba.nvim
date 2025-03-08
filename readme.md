@@ -145,10 +145,10 @@ require('staba').setup({
 })
 ```
 
+</details>
+
 > [!TIP]
 > Contains unused settings such as `sep`, `icons.status`
-
-</details>
 
 ## Tabline
 
