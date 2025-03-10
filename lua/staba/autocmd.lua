@@ -2,13 +2,26 @@ local M = {}
 local cache = require('staba.cache')
 local helper = require('staba.helper')
 
-local function _set_mode_hl(mode_hl, from)
+-- configure a single hlgroup for multiple hlgroups for winhighlight configuration
+---@param mode_hl string[] To hlgroup names
+---@param from string From hlgroup name
+---@return string `value of winhighlight`
+local function set_mode_hl(mode_hl, from)
   return vim
     .iter(mode_hl)
     :map(function(to)
       return to .. ':' .. from
     end)
     :join(',')
+end
+
+local function fade_background()
+  vim.opt_local.winhighlight:append('NormalNC:StabaNC,StatuslineNC:StabaStatusNC')
+end
+local function non_fade_background()
+  vim.api.nvim_win_call(cache.bufdata.winid, function()
+    vim.opt_local.winhighlight:append('NormalNC:Normal,StatuslineNC:StabaStatus')
+  end)
 end
 
 ---@param UNIQUE_NAME string
@@ -43,7 +56,7 @@ function M.setup(UNIQUE_NAME, opts)
         if not hlname then
           vim.opt_local.winhighlight:remove(apply_hls)
         else
-          vim.opt_local.winhighlight:append(_set_mode_hl(apply_hls, hlname))
+          vim.opt_local.winhighlight:append(set_mode_hl(apply_hls, hlname))
         end
       end,
     })
@@ -51,6 +64,39 @@ function M.setup(UNIQUE_NAME, opts)
 
   if opts.enable_fade then
     local fade_ignore = opts.ignore_filetypes.fade or {}
+    --[[ NOTE:
+    -- When Noice.nvim is loaded as a plugin, it initializes the Nui.nvim floating_window.
+    -- However, this triggers unnecessary events. To avoid this, we are recreate the "BufWinEnter" autocmd.
+    --]]
+    local function _recreate_autocmd()
+      vim.api.nvim_create_autocmd('BufWinEnter', {
+        desc = with_plugin_name('%s: disable decorations'),
+        group = augroup,
+        callback = function(ev)
+          if not helper.is_floating_win(0) then
+            cache:set_bufdata(ev.buf)
+          elseif opts.enable_fade then
+            non_fade_background()
+          end
+        end,
+      })
+    end
+    vim.api.nvim_create_autocmd('BufWinEnter', {
+      desc = with_plugin_name('%s: disable decorations'),
+      group = augroup,
+      callback = function(ev)
+        if package.loaded['noice'] then
+          vim.api.nvim_del_autocmd(ev.id)
+          _recreate_autocmd()
+          return
+        end
+        if not helper.is_floating_win(0) then
+          cache:set_bufdata(ev.buf)
+        else
+          non_fade_background()
+        end
+      end,
+    })
     vim.api.nvim_create_autocmd('WinClosed', {
       desc = with_plugin_name('%s: reset alternate window highlights'),
       group = augroup,
@@ -58,7 +104,7 @@ function M.setup(UNIQUE_NAME, opts)
       callback = function(ev)
         if helper.is_floating_win(0) and ev.buf == vim.api.nvim_get_current_buf() then
           vim.api.nvim_win_call(cache.bufdata.winid, function()
-            vim.opt_local.winhighlight:append('NormalNC:StabaNC,StatuslineNC:StabaStatusNC')
+            fade_background()
           end)
         end
       end,
@@ -71,13 +117,13 @@ function M.setup(UNIQUE_NAME, opts)
           cache:set_bufdata(ev.buf)
           vim.schedule(function()
             if not vim.list_contains(fade_ignore, vim.api.nvim_get_option_value('filetype', {})) then
-              vim.opt_local.winhighlight:append('NormalNC:StabaNC,StatuslineNC:StabaStatusNC')
+              fade_background()
             end
           end)
         else
-          vim.api.nvim_win_call(cache.bufdata.winid, function()
-            vim.opt_local.winhighlight:append('NormalNC:Normal,StatuslineNC:StabaStatus')
-          end)
+          -- NOTE: This is a setting to avoid registering winhighlight twice, but we need to be careful about side effects.
+          vim.wo.eventignorewin = 'BufWinEnter'
+          non_fade_background()
         end
       end,
     })
@@ -98,15 +144,6 @@ function M.setup(UNIQUE_NAME, opts)
     group = augroup,
     callback = function(ev)
       cache:add_to_buflist(ev.buf)
-    end,
-  })
-  vim.api.nvim_create_autocmd('BufWinEnter', {
-    desc = with_plugin_name('%s: disable decorations'),
-    group = augroup,
-    callback = function(ev)
-      if not helper.is_floating_win(0) then
-        cache:set_bufdata(ev.buf)
-      end
     end,
   })
 
