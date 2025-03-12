@@ -2,20 +2,20 @@
 ---@class util
 local M = {}
 
----@alias ValueType "number"|"string"|"boolean"|"table"|"function"|"thread"|"userdata"
-
 -- Returns "value" if the "bool" is true, and "nil" if it is false.
----@generic T any
+---@generic T ...
 ---@param bool boolean
----@param value T
+---@param ... T
 ---@return T|nil
-function M.value_or_nil(bool, value)
-  return bool == true and value or nil
+function M.value_or_nil(bool, ...)
+  return vim.F.ok_or_nil(bool, ...)
+  -- return bool == true and value or nil
 end
 
+---@alias valueType "number"|"string"|"boolean"|"table"|"function"|"thread"|"userdata"
 -- A closure function that returns one of the two arguments based on the type of `value` determined in advance.
 ---@param value any The value to be evaluated.
----@param validator ValueType The type to compare against.
+---@param validator valueType The type to compare against.
 ---@return function #A closure that returns <arg1> if "value" matches the type of "validator", otherwise returns <arg2>.
 function M.evaluated_condition(value, validator)
   return value == validator and function(t, _)

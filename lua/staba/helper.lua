@@ -22,11 +22,11 @@ function M.parse_path(bufnr)
   else
     local scheme_end = path:find('://', 1, true)
     if scheme_end then
-      wd = ''
       name = path:sub(1, scheme_end) .. path:sub(scheme_end):gsub('^.*[\\/]', '')
-    else
       wd = ''
+    else
       name = path
+      wd = ''
     end
   end
   return wd, name

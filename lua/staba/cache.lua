@@ -1,38 +1,4 @@
 local M = {}
---[[
-  Copyright 2025 folke
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-]]
-local devicons = (function()
-  local mod = nil
-  local function load()
-    if not mod then
-      mod = require('nvim-web-devicons')
-      package.loaded['nvim-web-devicons'] = mod
-    end
-    return mod
-  end
-  return vim.g.loaded_devicons and package.loaded['nvim-web-devicons']
-    or setmetatable({}, {
-      __index = function(_, key)
-        return load()[key]
-      end,
-      __call = function(_, ...)
-        return load()(...)
-      end,
-    })
-end)()
 
 ---@param name string
 ---@return IconDetail
@@ -40,8 +6,9 @@ local function get_devicon(name)
   local ret = { chr = '', hlgroup = '' }
   if name ~= '' then
     local extension = require('staba.util').extract_fileext(name)
-    local chr, hlgroup = devicons.get_icon(name, extension, { default = true })
-    if chr then
+    local devicons = package.loaded['nvim-web-devicons']
+    if devicons then
+      local chr, hlgroup = devicons.get_icon(name, extension, { default = true })
       ret = { chr = chr, hlgroup = hlgroup }
     end
   end
