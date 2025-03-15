@@ -49,9 +49,9 @@ end
 function M:new(opts)
   self.hlnames = opts.hlnames
   self.icons = expand_icon(opts.icons)
+  self.ignore_filetypes = opts.ignore_filetypes
   self.frame = opts.frame
   self.sep = opts.sep
-  self.ignore_filetypes = opts.ignore_filetypes
   self.bufs = {}
   self.buflist = {}
   self.buf_id = {}

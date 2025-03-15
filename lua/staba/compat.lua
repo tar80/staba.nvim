@@ -2,8 +2,6 @@
 
 local M = {}
 
----@alias Encoding 'utf-8'|'utf-16'|'utf-32'
-
 local has_next_version = vim.fn.has('nvim-0.11') == 1
 
 ---@param name string Argument name
@@ -18,7 +16,5 @@ function M.validate(name, value, validator, optional, message)
     vim.validate({ name = { value, validator, optional } })
   end
 end
-
-local _str_utfindex = vim.str_utfindex
 
 return M

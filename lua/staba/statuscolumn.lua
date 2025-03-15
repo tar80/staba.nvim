@@ -62,7 +62,7 @@ end
 function M.decorate(cache)
   ---@type string
   local statuscolumn
-  local bufdata = cache:get('bufdata')
+  local bufdata = cache.bufdata
   local marker = _has_fold_ex and _fold_icon.blank or ''
   local winid = tonumber(vim.g.actual_curwin) --[[@as integer]]
   local bufnr = vim.api.nvim_win_get_buf(winid)
