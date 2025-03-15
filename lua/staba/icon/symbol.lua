@@ -13,6 +13,8 @@ M.status = {
   nomodify = '  ',
   unopen = '󰌖',
   open = '  ',
+  rec1 = '󰻿',
+  rec2 = '󰕧',
 }
 M.logo = {
   nvim = '',

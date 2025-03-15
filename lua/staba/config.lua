@@ -72,7 +72,7 @@ local DEFAULT_SEP = {
 local DEFAULT_STATUSCOLUMN = { 'sign', 'number', 'fold_ex' }
 local DEFAULT_STATUSLINE = {
   active = {
-    left = { 'staba_logo', 'search_count', 'noice_mode' },
+    left = { 'staba_logo', 'search_count', 'reg_recording' },
     middle = {},
     right = { '%<', 'diagnostics', ' ', 'encoding', ' ', 'position' },
   },

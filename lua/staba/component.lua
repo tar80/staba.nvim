@@ -126,6 +126,11 @@ M.search_count = function()
   return ''
 end
 
+M.reg_recording = function()
+  local register = vim.fn.reg_recording()
+  return register ~= '' and ('recording %s@%s'):format(icons.status.rec, register) or ''
+end
+
 ---@param buf_status BufferStatus
 ---@return string Lsp_diagnostics
 M.diagnostics = function(buf_status)

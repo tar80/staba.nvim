@@ -136,7 +136,7 @@ staba-statusline                                            *staba-statusline*
         Type: table
         Default: {
             active = {
-              left = { 'staba_logo', 'search_count', 'noice_mode' },
+              left = { 'staba_logo', 'search_count', 'reg_recording' },
               middle = {},
               right = { '%<', 'diagnostics', ' ', 'encoding', ' ', 'position' },
             },
@@ -330,6 +330,7 @@ Parameters: ~
         component(statusline, tabline):               *staba-component-common*
             staba_logo: Display staba.nvim logo mark
             search_count: Displays the number of items searched
+            reg_recording: Displays the name of recording register
             devicon: Buffer extension icon
             encoding: Character encoding of the current buffer
             position: Cursor position of the window

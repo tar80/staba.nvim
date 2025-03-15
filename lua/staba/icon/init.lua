@@ -27,6 +27,7 @@ M.default = {
     nomodify = symbol.status.nomodify,
     unopen = { symbol.status.unopen, 'StabaSpecial' },
     open = symbol.status.open,
+    rec =  symbol.status.rec2,
   },
 }
 

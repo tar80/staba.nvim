@@ -68,7 +68,7 @@ require('staba').setup({
     statuscolumn = { 'sign', 'number', 'fold_ex' },
     statusline = {
         active = {
-            left = { 'staba_logo','search_count', 'noice_mode' },
+            left = { 'staba_logo','search_count', 'reg_recording' },
             middle = {},
             right = { '%<', 'diagnostics', 'encoding', 'position' },
             },
@@ -140,6 +140,8 @@ require('staba').setup({
             nomodify = '  ',
             unopen = { '󰌖', 'StabaSpecial' },
             open = '  ',
+            rec1 = '󰻿',
+            rec2 = '󰕧',
         },
     },
 })
