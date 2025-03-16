@@ -139,6 +139,17 @@ function M.setup(UNIQUE_NAME, opts)
     })
   end
 
+  if opts.statuscolumn and vim.list_contains(opts.statuscolumn, 'fold_ex') then
+    local base_col = vim.api.nvim_get_option_value('foldcolumn', { scope = 'global' })
+    vim.api.nvim_create_autocmd('OptionSet', {
+      group = augroup,
+      pattern = 'diff',
+      callback = function()
+        vim.api.nvim_set_option_value('foldcolumn', base_col, {})
+      end,
+    })
+  end
+
   vim.api.nvim_create_autocmd('BufAdd', {
     desc = with_plugin_name('%s: add listed buffer for tabline'),
     group = augroup,
@@ -147,6 +158,7 @@ function M.setup(UNIQUE_NAME, opts)
     end,
   })
 
+  local base_signcol = vim.api.nvim_get_option_value('signcolumn', {})
   vim.api.nvim_create_autocmd('Filetype', {
     desc = with_plugin_name('%s: disable statuscolumn'),
     group = augroup,
@@ -155,9 +167,12 @@ function M.setup(UNIQUE_NAME, opts)
       if vim.list_contains(ignore_filetypes.statuscolumn, ev.match) then
         vim.api.nvim_set_option_value('statuscolumn', '', {})
         vim.api.nvim_set_option_value('signcolumn', 'auto', {})
+      else
+        vim.api.nvim_set_option_value('signcolumn', base_signcol, {})
       end
     end,
   })
+
   vim.api.nvim_create_autocmd('ColorScheme', {
     desc = with_plugin_name('%s: get set hlgroups'),
     group = augroup,
