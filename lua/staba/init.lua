@@ -1,20 +1,19 @@
 ---@class Staba
 local M = {}
-local PLUGIN_NAME = 'staba.nvim'
+local UNIQUE_NAME = 'staba.nvim'
 
 ---@param user_spec UserSpec
 function M.setup(user_spec)
   local cache = require('staba.cache')
-  local opts = require('staba.config').setup(user_spec)
+  local opts = require('staba.config').setup(UNIQUE_NAME, user_spec)
   local bufnr = vim.api.nvim_win_get_buf(0)
   cache:new(opts)
   cache:add_to_buflist(bufnr)
   cache:set_bufdata(bufnr)
-  require('staba.autocmd').setup(PLUGIN_NAME, opts)
+  require('staba.autocmd').setup(UNIQUE_NAME, opts)
   _G.staba = {}
 
   if opts.tabline then
-    require('staba.keymap').setup(PLUGIN_NAME)
     require('staba.tabline').cache_expression(opts)
     vim.o.tabline = '%!v:lua.staba.tabline()'
     function _G.staba.tabline()
@@ -35,6 +34,7 @@ function M.setup(user_spec)
       return require('staba.statuscolumn').decorate(cache)
     end
   end
+  require('staba.keymap').setup(UNIQUE_NAME, opts, cache)
 end
 
 return M

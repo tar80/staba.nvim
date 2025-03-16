@@ -36,7 +36,8 @@ setup({cfg})                                                   *staba.setup()*
 
         Parameters: ~
                 {enable_fade}         (boolean)   |staba-enable-fade|
-                {enable_underline}   (boolean)   |staba-enable-underline|
+                {enable_underline}    (boolean)   |staba-enable-underline|
+                {enable_sign_marks}   (boolean)   |staba-enable-sign-marks|
                 {enable_statuscolumn} (boolean)   |staba-enable-statuscolumn|
                 {enable_statusline}   (boolean)   |staba-enable-statusline|
                 {enable_tabline}      (boolean)   |staba-enable-tabline|
@@ -64,6 +65,13 @@ staba-enable-fade                                          *staba-enable-fade*
 staba-enable-underline                                *staba-enable-underline*
 
         Sets an underline to separate from other windows.
+
+        Type: boolean
+        Default: false
+
+staba-enable-sign-marks                              *staba-enable-sign-marks*
+
+        Enables the display of marks in the signcolumn.
 
         Type: boolean
         Default: false
@@ -348,35 +356,58 @@ Parameters: ~
 ------------------------------------------------------------------------------
 MAPPING                                                        *staba-mapping*
 
+For buffer operations ~
+
 <Plug>(staba-pick)
 
-            This allows you to select a buffer via navigation-key.
-            When using a single key, it will open in the current buffer, but
-            if the modifier key Shift is pressed, it will open horizontally,
-            and if Ctrl is pressed, it will open vertically.
+        This allows you to select a buffer via navigation-key.
+        When using a single key, it will open in the current buffer, but
+        if the modifier key Shift is pressed, it will open horizontally,
+        and if Ctrl is pressed, it will open vertically.
 
-            e.g:
-              <mapped-key>[navigation-key]
-                  This opens a buffer in the current window.
+        e.g:
+          <mapped-key>[navigation-key]
+              This opens a buffer in the current window.
 
-              <mapped-key>[Shift + navigation-key]
-                  This opens a buffer in a horizontal split of the window.
+          <mapped-key>[Shift + navigation-key]
+              This opens a buffer in a horizontal split of the window.
 
-              <mapped-key>[Ctrl + navigation-key]
-                  This opens a buffer in a vertical split of the window.
+          <mapped-key>[Ctrl + navigation-key]
+              This opens a buffer in a vertical split of the window.
 
 <Plug>(staba-delete-current)
 
-            This will delete the current buffer.
+        This will delete the current buffer.
 
 <Plug>(staba-delete-select)
 
-            This will delete a buffer you selected via label.
+        This will delete a buffer you selected via label.
 
 <Plug>(staba-clean)
 
-            This deletes all unchanged buffers except for the current buffer
-            and scratch buffers.
+        This deletes all unchanged buffers except for the current buffer
+        and scratch buffers.
+
+For marks operations ~
+
+<Plug>(staba-mark-operator)
+
+        This is the basic key for mark operations.
+        Works the same as the regular |m| key.
+        This key must be registered in order to update the mark signs.
+
+<Plug>(staba-mark-toggle)
+
+        If the current line has a mark set, it will be deleted.
+        If not, mark |m| will be registered.
+
+<Plug>(staba-mark-delete)
+
+        Deletes a mark on the current line if one exists.
+
+<Plug>(staba-mark-delete-all)
+
+        Deletes all alphabetical marks in the entire buffer.
 
 ------------------------------------------------------------------------------
 HIGHLIGHT                                                    *staba-highlight*
@@ -448,6 +479,12 @@ Tabline ~
 *StabaModified*
 
         Used for buffers that have been modified.
+
+Statuscolumn ~
+
+*StabaSignMarks*
+
+        Used for signcolumn marks.
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:

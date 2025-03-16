@@ -101,6 +101,7 @@ function M:set_bufdata(bufnr)
     winid = vim.api.nvim_tabpage_get_win(0),
     actual_bufnr = bufnr,
     alt_bufnr = vim.fn.bufnr('#'),
+    mark = {},
   }
 end
 

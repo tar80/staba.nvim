@@ -24,9 +24,27 @@ local function non_fade_background()
   end)
 end
 
+local function set_buffer_marks()
+  local bufnr = cache.bufdata.actual_bufnr
+  local marklist = vim.fn.getmarklist(bufnr)
+  vim.api.nvim_buf_clear_namespace(bufnr, cache.ns, 0, -1)
+  vim.iter(marklist):each(function(t)
+    if t.mark:find('%a') then
+      local chr, row = t.mark:sub(-1), t.pos[2]
+      local id = vim.api.nvim_buf_set_extmark(bufnr, cache.ns, row - 1, 0, {
+        priority = 0,
+        sign_text = chr,
+        sign_hl_group = 'StabaSignMarks',
+      })
+      cache.bufdata.mark[row] = { chr = chr, id = id }
+    end
+  end)
+end
+
 ---@param UNIQUE_NAME string
 ---@param opts Options
 function M.setup(UNIQUE_NAME, opts)
+  cache.ns = vim.api.nvim_create_namespace(UNIQUE_NAME)
   local augroup = vim.api.nvim_create_augroup(UNIQUE_NAME, { clear = true })
   local with_plugin_name = require('staba.util').name_formatter(UNIQUE_NAME)
   local rgx_mode = ':([ictsrv\x16])'
@@ -58,6 +76,26 @@ function M.setup(UNIQUE_NAME, opts)
         else
           vim.opt_local.winhighlight:append(set_mode_hl(apply_hls, hlname))
         end
+      end,
+    })
+  end
+
+  if opts.enable_sign_marks then
+    vim.api.nvim_create_autocmd('WinLeave', {
+      desc = with_plugin_name('%s: remove marks'),
+      group = augroup,
+      callback = function()
+        if not helper.is_floating_win(0) then
+          vim.api.nvim_buf_clear_namespace(0, cache.ns, 0, -1)
+        end
+      end,
+    })
+    vim.api.nvim_create_autocmd('User', {
+      desc = with_plugin_name('%s: update mark'),
+      group = augroup,
+      pattern = 'StabaUpdateMark',
+      callback = function()
+        set_buffer_marks()
       end,
     })
   end
@@ -116,6 +154,9 @@ function M.setup(UNIQUE_NAME, opts)
         if not helper.is_floating_win(0) then
           cache:set_bufdata(ev.buf)
           vim.schedule(function()
+            if opts.enable_sign_marks then
+              set_buffer_marks()
+            end
             if not vim.list_contains(fade_ignore, vim.api.nvim_get_option_value('filetype', {})) then
               fade_background()
             end
@@ -134,6 +175,11 @@ function M.setup(UNIQUE_NAME, opts)
       callback = function(ev)
         if not helper.is_floating_win(0) then
           cache:set_bufdata(ev.buf)
+          if opts.enable_sign_marks then
+            vim.schedule(function()
+              set_buffer_marks()
+            end)
+          end
         end
       end,
     })
@@ -190,6 +236,9 @@ function M.setup(UNIQUE_NAME, opts)
       end
       if conf.set_hl_status then
         conf.set_hl_status(opts.enable_underline)
+      end
+      if conf.set_hl_marks then
+        conf.set_hl_marks()
       end
     end,
   })

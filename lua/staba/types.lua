@@ -29,7 +29,7 @@
 
 ---@class CacheValue
 ---@field hlnames Options['hlnames']
----@field buflist integer[]
+---@field Buflist integer[]
 ---@field bufs Bufs
 ---@field icons Options['icons']
 ---@field frame Options['frame']
@@ -48,10 +48,12 @@
 ---@field winid integer
 ---@field actual_bufnr integer
 ---@field alt_bufnr integer
+---@field mark? {[integer]:{chr:string,id:integer}}
 
 ---@class Options
 ---@field enable_fade boolean
 ---@field enable_underline boolean
+---@field enable_sign_marks boolean
 ---@field nav_keys string
 ---@field no_name string
 ---@field mode_line lineNr?
@@ -69,6 +71,7 @@
 ---@field enable_statusline? boolean
 ---@field enable_tabline? boolean
 ---@field enable_underline? boolean
+---@field enable_sign_marks? boolean
 ---@field enable_fade? boolean
 ---@field nav_keys? string
 ---@field no_name? string

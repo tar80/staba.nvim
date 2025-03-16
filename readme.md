@@ -164,7 +164,7 @@ total buffers, modified buffers, and hidden arglists, respectively.
 ![tabline_details](https://github.com/user-attachments/assets/d412edd7-7a9c-4269-81b1-f995f3954aca)
 
 > [!IMPORTANT]
-> Access to the tabs is facilitated through a dedicated <Plug> keymaps.  
+> Access to the tabs is facilitated through a dedicated <Plug> keymaps.
 
 ## Statusline
 
@@ -220,7 +220,12 @@ This element allows for the display of fold markers, and line highlighting based
 on vi-mode. The fold marker display was created with reference to Snacks.nvim.
 While that implementation is highly functional and powerful, Staba.nvim is designed to be simpler.
 
-[statuscolumn](https://github.com/user-attachments/assets/3cfb2dee-ac2f-4664-8479-0156aa3f8192)
+[fold](https://github.com/user-attachments/assets/3cfb2dee-ac2f-4664-8479-0156aa3f8192)
+
+Displays the mark status of the buffer in the signcolumn. Register, delete, and
+toggle operations using `<Plug>(staba-mark-xxx)` keys.
+
+[marks](https://github.com/user-attachments/assets/8dd5c569-17bc-458d-a6db-73ef8b7c28e1)
 
 ## Enhanced Fade Control
 
@@ -250,28 +255,47 @@ Staba.nvim solves these problems.
 
 ## Keymaps
 
-There are four navigation keys available.
+- There are used for buffer operations.
 
-**\<Plug>(staba-pick)**
+  **\<Plug>(staba-pick)**
 
-- This allows you to select a buffer via label. When using a single key,
-  it will open in the current buffer, but if the modifier key `Shift` is pressed,
-  it will open horizontally, and if `Ctrl` is pressed, it will open vertically.
+  - This allows you to select a buffer via label. When using a single key,
+    it will open in the current buffer, but if the modifier key `Shift` is pressed,
+    it will open horizontally, and if `Ctrl` is pressed, it will open vertically.
 
-**\<Plug>(staba-delete-current)**
+  **\<Plug>(staba-delete-current)**
 
-- This will delete the current buffer.
+  - This will delete the current buffer.
 
-**\<Plug>(staba-delete-select)**
+  **\<Plug>(staba-delete-select)**
 
-- This will delete a buffer you selected via label.
+  - This will delete a buffer you selected via label.
 
-**\<Plug>(staba-cleanup)**
+  **\<Plug>(staba-cleanup)**
 
-- This deletes all unchanged buffers except the current buffer and scratch buffers.
-  > In fact, there are plugins that generate an error when deleting the scratch buffer.
+  - This deletes all unchanged buffers except the current buffer and scratch buffers.
+    In fact, there are plugins that generate an error when deleting the scratch buffer.
 
-For example, here is a keymapping example:
+- These are used for mark operations.
+
+  **\<Plug>(staba-mark-operator)**
+
+  - This is the basic key for mark operations. Works the same as the regular `m`
+    key. This key must be registered in order to update the mark signs.
+
+  **\<Plug>(staba-mark-toggle)**
+
+  - If the current line has a mark set, it will be deleted. If not, mark `m` will be registered.
+
+  **\<Plug>(staba-mark-delete)**
+
+  - Deletes a mark on the current line if one exists.
+
+  **\<Plug>(staba-mark-delete-all)**
+
+  - Deletes all alphabetical marks in the entire buffer.
+
+- For example, here is a keymapping example:
 
 ```lua
 vim.keymap.set('n', 'gb', '<Plug>(staba-pick)')
@@ -279,6 +303,11 @@ vim.keymap.set('n', '<C-w>1', '<Plug>(staba-cleanup)')
 vim.keymap.set('n', '<C-w>q', '<Plug>(staba-delete-select)')
 -- "q" must be removed from the `nav_key` value
 vim.keymap.set('n', '<C-w>qq', '<Plug>(staba-delete-current)')
+
+vim.keymap.set('n', 'm', '<Plug>(staba-mark-operator)', {})
+vim.keymap.set('n', 'mm', '<Plug>(staba-mark-toggle)', {})
+vim.keymap.set('n', 'md', '<Plug>(staba-mark-delete)', {})
+vim.keymap.set('n', 'mD', '<Plug>(staba-mark-delete-all)', {})
 ```
 
 > [!TIP]

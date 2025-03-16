@@ -33,6 +33,8 @@ local HL_NAMES = {
   special = 'StabaSpecial',
   readonly = 'StabaReadonly',
   modified = 'StabaModified',
+
+  marks = 'StabaSignMarks',
 }
 local HL_DETAILS = {
   mode_i = { fg = 'Cyan' },
@@ -181,11 +183,19 @@ local function _set_hl_status(enable_underline)
   helper.set_hl(hlgroups)
 end
 
+local function _set_hl_marks()
+  local hlgroups = {}
+  hlgroups[HL_NAMES.marks] = { link = 'Search' }
+  helper.set_hl(hlgroups)
+end
+
+---@param UNIQUE_NAME string
 ---@param user_spec UserSpec
 ---@return Options
-function M.setup(user_spec)
+function M.setup(UNIQUE_NAME, user_spec)
   validate('enable_fade', user_spec.enable_fade, 'boolean', true)
   validate('enable_underline', user_spec.enable_underline, 'boolean', true)
+  validate('enable_sign_marks', user_spec.enable_sign_marks, 'boolean', true)
   validate('mode_line', user_spec.mode_line, 'string', true)
   validate('nav_keys', user_spec.nav_keys, 'string', true)
   validate('no_name', user_spec.no_name, 'string', true)
@@ -246,6 +256,11 @@ function M.setup(user_spec)
   if user_spec.mode_line then
     M.set_hl_mode = _set_hl_mode
     M.set_hl_mode(user_spec.mode_line)
+  end
+  if user_spec.enable_sign_marks then
+    opts.enable_sign_marks = user_spec.enable_sign_marks
+    M.set_hl_marks = _set_hl_marks
+    M.set_hl_marks()
   end
 
   return opts
