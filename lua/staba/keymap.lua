@@ -2,6 +2,7 @@ local M = {}
 
 function M.setup(UNIQUE_NAME, opts, cache)
   local with_plugin_name = require('staba.util').name_formatter(UNIQUE_NAME)
+  local lsp = require('staba.lsp')
   if opts.tabline then
     vim.keymap.set('n', '<Plug>(staba-pick)', function()
       local input = vim.fn.getcharstr(-1, { simplify = false })
@@ -26,6 +27,10 @@ function M.setup(UNIQUE_NAME, opts, cache)
       if not vim.api.nvim_get_option_value('buflisted', {}) then
         vim.api.nvim_buf_delete(0, { force = true })
       elseif #cache.buflist > 1 then
+        local clients = lsp.buf_get_clients()
+        if clients.count > 0 then
+          lsp.buf_detach_clients(clients.ids)
+        end
         pcall(vim.api.nvim_buf_delete, 0, { unload = false })
       else
         vim.cmd.close({ mods = { emsg_silent = true } })
