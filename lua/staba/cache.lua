@@ -47,6 +47,8 @@ end
 
 ---@param opts Options
 function M:new(opts)
+  self.signcolumn = vim.api.nvim_get_option_value('signcolumn', { scope = 'global' })
+  self.foldcolumn = vim.api.nvim_get_option_value('foldcolumn', { scope = 'global' })
   self.hlnames = opts.hlnames
   self.icons = expand_icon(opts.icons)
   self.ignore_filetypes = opts.ignore_filetypes

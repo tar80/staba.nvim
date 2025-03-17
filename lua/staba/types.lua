@@ -1,3 +1,5 @@
+---@meta
+
 ---@alias expressions 'tabline'|'statusline'|'statuscolumn'|'fade'
 ---@alias listView 'tabs'|'buffers'
 ---@alias tabLine 'bufstats'|'parent'
@@ -5,10 +7,11 @@
 ---@alias lineNr 'LineNr'|'CursorLineNr'|'CursorLine'
 ---@alias shellSlash '/'|'\\'
 ---@alias statusColumn 'number'|'sign'|'fold'|'fold_ex'
+---@alias ComponentType string|function
 ---@alias NavID {[string]:integer}
 ---@alias BufInfo {tab:integer,buffer:integer,modified:integer,unopened:integer,cwd:string,format:string[]}
 ---@alias TablineTable {bufinfo:BufInfo,left:tabLine[],right:tabLine[],view:listView[],active:tabLineBuffer[],tabs:tabLineBuffer[],buffers:tabLineBuffer[]}
----@alias StatuslineSection {left:string[],middle:string[],right:string[]}
+---@alias StatuslineSection {left:ComponentType[],middle:ComponentType[],right:ComponentType[]}
 ---@alias StatuslineTable {active:StatuslineSection,inactive:StatuslineSection}
 ---@alias StatusColumnTable {active:string,inactive:string}
 ---@alias IconDetail {chr:string,hlgroup:string}
@@ -28,6 +31,8 @@
 ---@field set_bufdata fun(self,bufnr:integer)
 
 ---@class CacheValue
+---@field signcolumn string
+---@field foldcolumn string
 ---@field hlnames Options['hlnames']
 ---@field Buflist integer[]
 ---@field bufs Bufs
