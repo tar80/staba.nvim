@@ -162,8 +162,10 @@ function M.setup(UNIQUE_NAME, opts)
             end
           end)
         else
-          -- NOTE: This is a setting to avoid registering winhighlight twice, but we need to be careful about side effects.
-          vim.wo.eventignorewin = 'BufWinEnter'
+          if vim.fn.has('nvim-0.11') == 1 then
+            -- NOTE: This is a setting to avoid registering winhighlight twice, but we need to be careful about side effects.
+            vim.wo.eventignorewin = 'BufWinEnter'
+          end
           non_fade_background()
         end
       end,
@@ -186,19 +188,19 @@ function M.setup(UNIQUE_NAME, opts)
   end
 
   if opts.statuscolumn then
-  vim.api.nvim_create_autocmd('Filetype', {
-    desc = with_plugin_name('%s: disable statuscolumn'),
-    group = augroup,
-    callback = function(ev)
-      local ignore_filetypes = opts.ignore_filetypes
-      if vim.list_contains(ignore_filetypes.statuscolumn, ev.match) then
-        vim.api.nvim_set_option_value('statuscolumn', '', {})
-        vim.api.nvim_set_option_value('signcolumn', 'auto', {})
-      else
+    vim.api.nvim_create_autocmd('Filetype', {
+      desc = with_plugin_name('%s: disable statuscolumn'),
+      group = augroup,
+      callback = function(ev)
+        local ignore_filetypes = opts.ignore_filetypes
+        if vim.list_contains(ignore_filetypes.statuscolumn, ev.match) then
+          vim.api.nvim_set_option_value('statuscolumn', '', {})
+          vim.api.nvim_set_option_value('signcolumn', 'auto', {})
+        else
           vim.api.nvim_set_option_value('signcolumn', cache.signcolumn, {})
-      end
-    end,
-  })
+        end
+      end,
+    })
     vim.api.nvim_create_autocmd('OptionSet', {
       group = augroup,
       pattern = 'signcolumn',
