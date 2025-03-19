@@ -194,20 +194,22 @@ function M.setup(UNIQUE_NAME, opts)
       callback = function(ev)
         local ignore_filetypes = opts.ignore_filetypes
         if vim.list_contains(ignore_filetypes.statuscolumn, ev.match) then
-          vim.api.nvim_set_option_value('statuscolumn', '', {})
-          vim.api.nvim_set_option_value('signcolumn', 'auto', {})
+          vim.api.nvim_set_option_value('statuscolumn', '', { scope = 'local' })
+          vim.api.nvim_set_option_value('signcolumn', 'auto', { scope = 'local' })
         else
-          vim.api.nvim_set_option_value('signcolumn', cache.signcolumn, {})
+          vim.api.nvim_set_option_value('signcolumn', cache.signcolumn, { scope = 'local' })
         end
       end,
     })
-    vim.api.nvim_create_autocmd('OptionSet', {
-      group = augroup,
-      pattern = 'signcolumn',
-      callback = function()
-        cache.signcolumn = vim.api.nvim_get_option_value('signcolumn', { scope = 'global' })
-      end,
-    })
+    -- vim.api.nvim_create_autocmd('OptionSet', {
+    --   group = augroup,
+    --   pattern = 'signcolumn',
+    --   callback = function()
+    --     if not helper.is_floating_win(0) then
+    --       cache.signcolumn = vim.api.nvim_get_option_value('signcolumn', { scope = 'global' })
+    --     end
+    --   end,
+    -- })
 
     if vim.list_contains(opts.statuscolumn, 'fold_ex') then
       vim.api.nvim_create_autocmd('OptionSet', {
@@ -215,7 +217,7 @@ function M.setup(UNIQUE_NAME, opts)
         pattern = 'diff,foldcolumn',
         callback = function(ev)
           if ev.match == 'diff' then
-            vim.api.nvim_set_option_value('foldcolumn', cache.foldcolumn, {})
+            vim.api.nvim_set_option_value('foldcolumn', cache.foldcolumn, { scope = 'local' })
           elseif ev.match == 'foldcolumn' then
             cache.foldcolumn = vim.api.nvim_get_option_value('foldcolumn', { scope = 'global' })
           end
