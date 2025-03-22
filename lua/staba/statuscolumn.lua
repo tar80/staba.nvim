@@ -36,22 +36,15 @@ function M.cache_parsed_expression(statuscolumn, fold_icon)
   _fold_icon = fold_icon
 end
 
-local function _is_open_fold(lnum, prev)
-  if vim.v.virtnum == 0 then
-    local end_fold = vim.fn.foldclosedend(prev) == prev and 1 or 0
-    local prev_level = vim.fn.foldlevel(prev) - end_fold
-    return vim.fn.foldlevel(lnum) > prev_level
-  end
-end
-
 ---@param fold IconsFold
 ---@param marker string Icon string
+---@param foldfunc function
 ---@return string fold-marker
-local function get_folding(fold, marker)
+local function get_folding(fold, marker, foldfunc)
   local lnum = vim.v.lnum
   if vim.fn.foldclosed(lnum) >= lnum then
     marker = fold.close
-  elseif _is_open_fold(lnum, lnum - 1) then
+  elseif foldfunc(lnum) then
     marker = fold.open
   end
   return marker
@@ -69,7 +62,7 @@ function M.decorate(cache)
 
   if bufdata.actual_bufnr == bufnr then
     if _has_fold_ex then
-      local fold_marker = get_folding(_fold_icon, marker)
+      local fold_marker = get_folding(_fold_icon, marker, cache.foldfunc)
       statuscolumn = expression.active:format(winid, fold_marker)
     else
       statuscolumn = expression.active:format(winid)

@@ -43,6 +43,7 @@
 ---@field bufdata BufData
 ---@field last_tabline string
 ---@field last_statusline_win integer
+---@field foldfunc function(lnum:integer):integer?
 
 ---@class Bufs
 ---@field name string

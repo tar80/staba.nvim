@@ -81,10 +81,6 @@ function M:get(name)
   return self[name]
 end
 
-function M:eq(name, actual, expect)
-  return self[name][actual] == expect
-end
-
 function M:add_to_buflist(bufnr)
   if not vim.list_contains(self.buflist, bufnr) then
     table.insert(self.buflist, bufnr)
