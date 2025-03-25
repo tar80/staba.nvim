@@ -15,14 +15,15 @@ end
 function M.parse_path(bufnr)
   ---@type string,string
   local wd, name
-  local path = vim.uri_from_bufnr(bufnr)
-  if path:find('file://', 1, true) then
-    name = path:gsub('file:///?', '')
-    wd = vim.fs.dirname(name)
+  local uri = vim.uri_from_bufnr(bufnr)
+  local path = vim.api.nvim_buf_get_name(bufnr)
+  if uri:find('file://', 1, true) then
+    name = path
+    wd = vim.fs.dirname(path)
   else
-    local scheme_end = path:find('://', 1, true)
+    local scheme_end = uri:find('://', 1, true)
     if scheme_end then
-      name = path:sub(1, scheme_end) .. path:sub(scheme_end):gsub('^.*[\\/]', '')
+      name = uri:sub(1, scheme_end) .. path:gsub('^.*[\\/]', '')
       wd = ''
     else
       name = path
