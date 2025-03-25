@@ -44,7 +44,7 @@ local function get_folding(fold, marker, foldfunc)
   local lnum = vim.v.lnum
   if vim.fn.foldclosed(lnum) >= lnum then
     marker = fold.close
-  elseif foldfunc(lnum) then
+  elseif foldfunc and foldfunc(lnum) then
     marker = fold.open
   end
   return marker
@@ -59,10 +59,11 @@ function M.decorate(cache)
   local marker = _has_fold_ex and _fold_icon.blank or ''
   local winid = tonumber(vim.g.actual_curwin) --[[@as integer]]
   local bufnr = vim.api.nvim_win_get_buf(winid)
+  local foldfunc = vim.w.foldfunc
 
   if bufdata.actual_bufnr == bufnr then
     if _has_fold_ex then
-      local fold_marker = get_folding(_fold_icon, marker, cache.foldfunc)
+      local fold_marker = get_folding(_fold_icon, marker, foldfunc)
       statuscolumn = expression.active:format(winid, fold_marker)
     else
       statuscolumn = expression.active:format(winid)

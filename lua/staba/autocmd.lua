@@ -42,24 +42,29 @@ local function set_buffer_marks()
 end
 
 local function conditional_fold()
+  ---@class (private) vim.var_accessor
+  ---@field foldfunc function
   local method = vim.v.option_new
-  local expr = vim.wo.foldexpr
-  if method == 'expr' then
-    ---@diagnostic disable-next-line: cast-local-type
-    expr = expr:find('v:lua', 1, true) and expr:gsub('^v:lua%.vim%.(%l+)%.foldexpr%(%)$', '%1')
-    return function(lnum)
-      return tostring(vim[expr].foldexpr(lnum)):find('>', 1, true)
-    end
-  else
-    return function(lnum)
-      if vim.v.virtnum == 0 then
-        local prev = lnum - 1
-        local end_fold = vim.fn.foldclosedend(prev) == prev and 1 or 0
-        local prev_level = vim.fn.foldlevel(prev) - end_fold
-        return vim.fn.foldlevel(lnum) > prev_level
-      end
+  vim.w.foldfunc = function(lnum)
+    if vim.v.virtnum == 0 then
+      local prev = lnum - 1
+      local end_fold = vim.fn.foldclosedend(prev) == prev and 1 or 0
+      local prev_level = vim.fn.foldlevel(prev) - end_fold
+      return vim.fn.foldlevel(lnum) > prev_level
     end
   end
+  vim.defer_fn(function()
+    local expr = vim.wo.foldexpr
+    if method == 'expr' then
+      ---@diagnostic disable-next-line: cast-local-type
+      expr = expr:find('v:lua', 1, true) and expr:gsub('^v:lua%.vim%.(%l+)%.foldexpr%(%)$', '%1')
+      if expr then
+        vim.w.foldfunc = function(lnum)
+          return tostring(vim[expr].foldexpr(lnum)):find('>', 1, true)
+        end
+      end
+    end
+  end, 10)
 end
 
 ---@param UNIQUE_NAME string
@@ -231,7 +236,7 @@ function M.setup(UNIQUE_NAME, opts)
     })
 
     if vim.list_contains(opts.statuscolumn, 'fold_ex') then
-      cache.foldfunc = conditional_fold()
+      conditional_fold()
       vim.api.nvim_create_autocmd('OptionSet', {
         group = augroup,
         pattern = 'diff,foldcolumn,foldmethod',
@@ -240,9 +245,9 @@ function M.setup(UNIQUE_NAME, opts)
             vim.api.nvim_set_option_value('foldcolumn', cache.foldcolumn, { scope = 'local' })
           elseif ev.match == 'foldcolumn' then
             cache.foldcolumn = vim.api.nvim_get_option_value('foldcolumn', { scope = 'global' })
-          else  -- foldmethod
+          else -- foldmethod
             if not helper.is_floating_win(0) then
-              cache.foldfunc = conditional_fold()
+              conditional_fold()
             end
           end
         end,
