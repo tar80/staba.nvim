@@ -33,7 +33,7 @@ optimizing and streamlining existing features. It is designed to be used with
 
 - lazy.nvim
 
-```lua:
+```lua
 {
   'tar80/staba.nvim',
   opts = {

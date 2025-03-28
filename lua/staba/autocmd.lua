@@ -229,7 +229,7 @@ function M.setup(UNIQUE_NAME, opts)
         if vim.list_contains(ignore_filetypes.statuscolumn, ev.match) then
           vim.api.nvim_set_option_value('statuscolumn', '', { scope = 'local' })
           vim.api.nvim_set_option_value('signcolumn', 'auto', { scope = 'local' })
-        else
+        elseif not helper.is_floating_win(0) then
           vim.api.nvim_set_option_value('signcolumn', cache.signcolumn, { scope = 'local' })
         end
       end,
