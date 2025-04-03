@@ -52,6 +52,17 @@ setup({cfg})                                                   *staba.setup()*
                 {sep}                 (table)     |staba-sep|
                 {icons}               (table)     |staba-icon|
 
+wrap_no_fade_background({func}, {...})
+
+        Temporarily disables fading of the current window background
+        while `func` is running.
+
+        Parameters: ~
+                {func}    (function)
+                {...}     (any)
+        Return: ~
+                func(...) (any)
+
 ------------------------------------------------------------------------------
 CONFIGURATION                                            *staba-configuration*
 

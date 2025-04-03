@@ -37,4 +37,12 @@ function M.setup(user_spec)
   require('staba.keymap').setup(UNIQUE_NAME, opts, cache)
 end
 
+-- Temporarily sets NormalNC to Normal for the current window while the specified function is running.
+---@param func fun(...)
+---@param ... any
+function M.wrap_no_fade_background(func, ...)
+  vim.opt_local.winhighlight:append('NormalNC:Normal,StatuslineNC:StabaStatus')
+  return func(...)
+end
+
 return M
