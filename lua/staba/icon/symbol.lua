@@ -22,12 +22,13 @@ M.logo = {
   lua = '',
 }
 M.mark = {
-  circle = '',
-  circle2 = '',
-  square = '■',
-  square2 = '',
-  square3 = '󰄮',
-  square4 = '󱓻',
+  circle_s = '',
+  circle_sl = '',
+  circle_sr = '',
+  round_square_s =  '',
+  round_square_l = '󱓻',
+  square_s = '■',
+  square_l = '󰄮',
   star = '󰙴',
 }
 M.state = {
@@ -36,7 +37,7 @@ M.state = {
   pending = '',
 }
 M.os = {
-  dos = '',
+  dos = '',
   unix = '',
   mac = '',
 }
