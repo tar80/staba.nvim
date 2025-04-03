@@ -26,6 +26,9 @@ end
 
 local function set_buffer_marks()
   local bufnr = cache.bufdata.actual_bufnr
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    bufnr = vim.api.nvim_get_current_buf()
+  end
   local marklist = vim.fn.getmarklist(bufnr)
   vim.api.nvim_buf_clear_namespace(bufnr, cache.ns, 0, -1)
   vim.iter(marklist):each(function(t)
@@ -72,7 +75,7 @@ end
 function M.setup(UNIQUE_NAME, opts)
   cache.ns = vim.api.nvim_create_namespace(UNIQUE_NAME)
   local augroup = vim.api.nvim_create_augroup(UNIQUE_NAME, { clear = true })
-  local with_plugin_name = require('staba.util').name_formatter(UNIQUE_NAME)
+  local with_unique_name = require('staba.util').name_formatter(UNIQUE_NAME)
   local rgx_mode = ':([ictsrv\x16])'
 
   if opts.mode_line then
@@ -87,7 +90,7 @@ function M.setup(UNIQUE_NAME, opts)
       ['\x16'] = opts.hlnames.mode_vb,
     }
     vim.api.nvim_create_autocmd('ModeChanged', {
-      desc = with_plugin_name('%s: mode LineNr'),
+      desc = with_unique_name('%s: mode LineNr'),
       group = augroup,
       callback = function(ev)
         local mode = ev.match:lower():match(rgx_mode)
@@ -115,7 +118,7 @@ function M.setup(UNIQUE_NAME, opts)
 
   if opts.enable_sign_marks then
     vim.api.nvim_create_autocmd('WinLeave', {
-      desc = with_plugin_name('%s: remove marks'),
+      desc = with_unique_name('%s: remove marks'),
       group = augroup,
       callback = function()
         if not helper.is_floating_win(0) then
@@ -124,7 +127,7 @@ function M.setup(UNIQUE_NAME, opts)
       end,
     })
     vim.api.nvim_create_autocmd('User', {
-      desc = with_plugin_name('%s: update mark'),
+      desc = with_unique_name('%s: update mark'),
       group = augroup,
       pattern = 'StabaUpdateMark',
       callback = function()
@@ -141,7 +144,7 @@ function M.setup(UNIQUE_NAME, opts)
     --]]
     local function _recreate_autocmd()
       vim.api.nvim_create_autocmd('BufWinEnter', {
-        desc = with_plugin_name('%s: disable decorations'),
+        desc = with_unique_name('%s: disable decorations'),
         group = augroup,
         callback = function(ev)
           if not helper.is_floating_win(0) then
@@ -153,7 +156,7 @@ function M.setup(UNIQUE_NAME, opts)
       })
     end
     vim.api.nvim_create_autocmd('BufWinEnter', {
-      desc = with_plugin_name('%s: disable decorations'),
+      desc = with_unique_name('%s: disable decorations'),
       group = augroup,
       callback = function(ev)
         if package.loaded['noice'] then
@@ -169,7 +172,7 @@ function M.setup(UNIQUE_NAME, opts)
       end,
     })
     vim.api.nvim_create_autocmd('WinClosed', {
-      desc = with_plugin_name('%s: reset alternate window highlights'),
+      desc = with_unique_name('%s: reset alternate window highlights'),
       group = augroup,
       -- buffer = vim.api.nvim_get_current_buf(),
       callback = function(ev)
@@ -181,7 +184,7 @@ function M.setup(UNIQUE_NAME, opts)
       end,
     })
     vim.api.nvim_create_autocmd('WinEnter', {
-      desc = with_plugin_name('%s: set window highlights'),
+      desc = with_unique_name('%s: set window highlights'),
       group = augroup,
       callback = function(ev)
         if not helper.is_floating_win(0) then
@@ -205,7 +208,7 @@ function M.setup(UNIQUE_NAME, opts)
     })
   else
     vim.api.nvim_create_autocmd('WinEnter', {
-      desc = with_plugin_name('%s: set window highlights'),
+      desc = with_unique_name('%s: set window highlights'),
       group = augroup,
       callback = function(ev)
         if not helper.is_floating_win(0) then
@@ -222,7 +225,7 @@ function M.setup(UNIQUE_NAME, opts)
 
   if opts.statuscolumn then
     vim.api.nvim_create_autocmd('Filetype', {
-      desc = with_plugin_name('%s: disable statuscolumn'),
+      desc = with_unique_name('%s: disable statuscolumn'),
       group = augroup,
       callback = function(ev)
         local ignore_filetypes = opts.ignore_filetypes
@@ -256,7 +259,7 @@ function M.setup(UNIQUE_NAME, opts)
   end
 
   vim.api.nvim_create_autocmd('BufAdd', {
-    desc = with_plugin_name('%s: add listed buffer for tabline'),
+    desc = with_unique_name('%s: add listed buffer for tabline'),
     group = augroup,
     callback = function(ev)
       cache:add_to_buflist(ev.buf)
@@ -264,7 +267,7 @@ function M.setup(UNIQUE_NAME, opts)
   })
 
   vim.api.nvim_create_autocmd('ColorScheme', {
-    desc = with_plugin_name('%s: get set hlgroups'),
+    desc = with_unique_name('%s: get set hlgroups'),
     group = augroup,
     callback = function(_)
       local conf = require('staba.config')
