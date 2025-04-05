@@ -27,6 +27,7 @@ optimizing and streamlining existing features. It is designed to be used with
 - Neovim >= 0.10.0
 - Nerd Fonts
 - [Nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) (Optional)
+- [Mini.icons](https://github.com/echasnovski/mini.icons) (Optional)
 - [Noice.nvim](https://github.com/folke/noice.nvim) (Optional)
 
 ## Installation
@@ -63,7 +64,7 @@ require('staba').setup({
     ignore_filetypes = {
         fade = {},
         statuscolumn = { 'qf', 'help', 'terminal' },
-        statusline = { 'terminal' },
+        statusline = { 'terminal' }, -- recommended trouble, snacks_layout_box
         tabline = {},
     },
     statuscolumn = { 'sign', 'number', 'fold_ex' },

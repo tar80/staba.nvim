@@ -55,7 +55,7 @@ local function parse_component(tbl, buf_info)
   return exp
 end
 
-local function parse_tab(keyspec, tbl, buf_info, is_active)
+local function parse_tab(keyspec, tbl, buf_status, is_active)
   local exp = ''
   vim.iter(tbl):each(function(element)
     local _component = component[element]
@@ -63,10 +63,10 @@ local function parse_tab(keyspec, tbl, buf_info, is_active)
     ---@type string
     local value = ''
     if _component then
-      buf_info.nav_key = keyspec
-      value = _component(buf_info, is_active)
+      buf_status.nav_key = keyspec
+      value = _component(buf_status, is_active)
     elseif element_type == 'function' then
-      value = element(buf_info, is_active)
+      value = element(buf_status, is_active)
     else
       value = tostring(element)
     end

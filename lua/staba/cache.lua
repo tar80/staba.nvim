@@ -1,14 +1,17 @@
 local M = {}
 
----@param name string
+---@param filetype string
 ---@return IconDetail
-local function get_devicon(name)
+local function get_devicon(filetype)
   local ret = { chr = '', hlgroup = '' }
-  if name ~= '' then
-    local extension = require('staba.util').extract_fileext(name)
+  if filetype ~= '' then
     local devicons = package.loaded['nvim-web-devicons']
+    local miniicons = package.loaded['mini.icons']
     if devicons then
-      local chr, hlgroup = devicons.get_icon(name, extension, { default = true })
+      local chr, hlgroup = devicons.get_icon('', filetype, { default = true })
+      ret = { chr = chr, hlgroup = hlgroup }
+    elseif miniicons then
+      local chr, hlgroup, _ = miniicons.get('filetype', filetype)
       ret = { chr = chr, hlgroup = hlgroup }
     end
   end
@@ -88,8 +91,14 @@ function M:add_to_buflist(bufnr)
   local name = vim.api.nvim_buf_get_name(bufnr)
   self.bufs[bufnr] = {
     name = name,
-    devicon = get_devicon(name),
+    devicon = { chr = '', hlgroup = '' },
   }
+end
+
+function M:set_to_buficon(bufnr, filetype)
+  if self.bufs[bufnr] then
+    self.bufs[bufnr].devicon = get_devicon(filetype)
+  end
 end
 
 function M:set_bufdata(bufnr)

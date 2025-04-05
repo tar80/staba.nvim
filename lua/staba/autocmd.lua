@@ -172,9 +172,9 @@ function M.setup(UNIQUE_NAME, opts)
       end,
     })
     vim.api.nvim_create_autocmd('WinClosed', {
-      desc = with_unique_name('%s: reset alternate window highlights'),
+      desc = with_unique_name('%s: fade alternate window highlights'),
       group = augroup,
-      -- buffer = vim.api.nvim_get_current_buf(),
+      buffer = vim.api.nvim_get_current_buf(),
       callback = function(ev)
         if helper.is_floating_win(0) and ev.buf == vim.api.nvim_get_current_buf() then
           vim.api.nvim_win_call(cache.bufdata.winid, function()
@@ -263,6 +263,14 @@ function M.setup(UNIQUE_NAME, opts)
     group = augroup,
     callback = function(ev)
       cache:add_to_buflist(ev.buf)
+    end,
+  })
+
+  vim.api.nvim_create_autocmd('Filetype', {
+    desc = with_unique_name('%s: set buffer extension icon'),
+    group = augroup,
+    callback = function(ev)
+      cache:set_to_buficon(ev.buf, ev.match)
     end,
   })
 
