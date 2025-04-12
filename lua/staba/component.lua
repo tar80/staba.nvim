@@ -198,4 +198,14 @@ M.noice_search = function(_)
   return ''
 end
 
+M.snacks_profiler = function(_)
+  if Snacks and Snacks.profiler.running() then
+    local status = Snacks.profiler.status()
+    if status.cond() then
+      return ('%%#%s#%s'):format(status.color, status[1]())
+    end
+  end
+  return ''
+end
+
 return M
