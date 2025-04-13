@@ -171,23 +171,18 @@ function M.setup(UNIQUE_NAME, opts)
         end
       end,
     })
-    vim.api.nvim_create_autocmd('WinClosed', {
-      desc = with_unique_name('%s: fade alternate window highlights'),
-      group = augroup,
-      buffer = vim.api.nvim_get_current_buf(),
-      callback = function(ev)
-        if helper.is_floating_win(0) and ev.buf == vim.api.nvim_get_current_buf() then
-          vim.api.nvim_win_call(cache.bufdata.winid, function()
-            fade_background()
-          end)
-        end
-      end,
-    })
     vim.api.nvim_create_autocmd('WinEnter', {
       desc = with_unique_name('%s: set window highlights'),
       group = augroup,
       callback = function(ev)
         if not helper.is_floating_win(0) then
+          if cache.bufdata.winid and vim.api.nvim_win_is_valid(cache.bufdata.winid) then
+            vim.api.nvim_win_call(cache.bufdata.winid, function()
+              if not vim.list_contains(fade_ignore, vim.api.nvim_get_option_value('filetype', {})) then
+                fade_background()
+              end
+            end)
+          end
           cache:set_bufdata(ev.buf)
           vim.schedule(function()
             if opts.enable_sign_marks then
