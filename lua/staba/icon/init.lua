@@ -15,10 +15,10 @@ M.default = {
     unix = { symbol.os.unix, 'Added' },
   },
   severity = {
-    Error = { symbol.severity.Error, 'DiagnosticSignError' },
-    Warn = { symbol.severity.Warn, 'DiagnosticSignWarn' },
-    Hint = { symbol.severity.Hint, 'DiagnosticSignHint' },
-    Info = { symbol.severity.Info, 'DiagnosticSignInfo' },
+    Error = { symbol.diagnostics.Error, 'DiagnosticSignError' },
+    Warn = { symbol.diagnostics.Warn, 'DiagnosticSignWarn' },
+    Hint = { symbol.diagnostics.Hint, 'DiagnosticSignHint' },
+    Info = { symbol.diagnostics.Info, 'DiagnosticSignInfo' },
   },
   status = {
     lock = { symbol.status.lock, 'StabaReadonly' },

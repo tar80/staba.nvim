@@ -34,19 +34,26 @@ M.mark = {
 M.state = {
   success = '',
   failure = '',
-  pending = '',
+  pending = '󰌚',
 }
 M.os = {
   dos = '',
   unix = '',
   mac = '',
 }
-M.severity = {
-  Error = '',
-  Warn = '',
-  Hint = '',
+M.diagnostics = {
+  Hint = '',
   Info = '',
-  Trace = '󱨈',
+  Warn = '',
+  Error = '',
+}
+M.log_levels = {
+  trace = '',
+  debug = '',
+  info = '',
+  warn = '',
+  error = '',
+  off = ' ',
 }
 M.ime = {
   hira = '󱌴',
