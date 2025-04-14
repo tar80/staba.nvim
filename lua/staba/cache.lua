@@ -5,14 +5,16 @@ local M = {}
 local function get_devicon(filetype)
   local ret = { chr = '', hlgroup = '' }
   if filetype ~= '' then
-    local devicons = package.loaded['nvim-web-devicons']
     local miniicons = package.loaded['mini.icons']
-    if devicons then
-      local chr, hlgroup = devicons.get_icon('', filetype, { default = true })
-      ret = { chr = chr, hlgroup = hlgroup }
-    elseif miniicons then
+    if miniicons then
       local chr, hlgroup, _ = miniicons.get('filetype', filetype)
       ret = { chr = chr, hlgroup = hlgroup }
+    else
+      local devicons = package.loaded['nvim-web-devicons']
+      if devicons then
+        local chr, hlgroup = devicons.get_icon_by_filetype(filetype, nil, { default = true })
+        ret = { chr = chr, hlgroup = hlgroup }
+      end
     end
   end
   return ret
@@ -26,7 +28,7 @@ local function expand_icon(items)
       items[item] = value
       return
     elseif t1 ~= 'table' then
-      vim.notify('', vim.log.levels.ERROR, {})
+      vim.notify('Error in expand_icon(cache.lua)', vim.log.levels.ERROR, { title = 'staba.nvim' })
       return
     end
     for k, v in pairs(value) do
