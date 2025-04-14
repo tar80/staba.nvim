@@ -260,11 +260,11 @@ COMPONENT                                                    *staba-component*
 In addition to the standard components, strings and functions
 can be specified for statusline and tabline.
 
-Statuscolumn                                              *staba-statuscolumn*
+Statuscolumn
         Parameters: ~
             |staba-component-statuscolumn|
 
-Statusline                                                  *staba-statusline*
+Statusline
 
         Fields: ~
             active: Current statusline
@@ -281,7 +281,7 @@ Statusline                                                  *staba-statusline*
                     |staba-component-string|,
                     |staba-component-function|
 
-Tabline                                                        *staba-tabline*
+Tabline
         Fields: ~
             left: Left tabline
                 Parameters: ~
