@@ -144,7 +144,8 @@ function M.decorate(cache)
       cache.bufs[bufnr] = nil
       return
     end
-    if vim.list_contains(tab_ignore, vim.bo[bufnr].filetype) then
+    local filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
+    if vim.list_contains(tab_ignore, filetype) then
       return
     end
     local tabnr = tabpage.current[bufnr]
@@ -164,6 +165,7 @@ function M.decorate(cache)
       has_name = name ~= '',
       bufnr = bufnr,
       buftype = buftype,
+      filetype = filetype,
       modified = modified,
       readonly = readonly,
       unopened = unopened,

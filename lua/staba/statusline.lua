@@ -7,7 +7,7 @@ local expression ---@type StatuslineTable
 local no_name ---@type string
 local status_ignore ---@type table
 
-local function parse_component(tbl, bufs)
+local function parse_component(tbl, buf_status)
   local exp = ''
   vim.iter(tbl):each(function(element)
     local _component = component[element]
@@ -15,7 +15,7 @@ local function parse_component(tbl, bufs)
     ---@type string
     local value
     if _component then
-      value = _component(bufs, true)
+      value = _component(buf_status, true)
     elseif element_type == 'function' then
       value = element()
     else
@@ -27,18 +27,18 @@ local function parse_component(tbl, bufs)
 end
 
 ---@param tbl StatuslineSection
-local function parse_section(tbl, bufs)
+local function parse_status(tbl, buf_status)
   local exp = {}
   if tbl.left then
-    local v = parse_component(tbl.left, bufs)
+    local v = parse_component(tbl.left, buf_status)
     vim.list_extend(exp, { v })
   end
   if tbl.middle then
-    local v = parse_component(tbl.middle, bufs)
+    local v = parse_component(tbl.middle, buf_status)
     vim.list_extend(exp, { v })
   end
   if tbl.right then
-    local v = parse_component(tbl.right, bufs)
+    local v = parse_component(tbl.right, buf_status)
     vim.list_extend(exp, { v })
   end
   return vim.fn.join(exp, '%=')
@@ -65,19 +65,19 @@ function M.decorate(cache)
     no_name = no_name,
     bufnr = cur_buf,
     buftype = vim.api.nvim_get_option_value('buftype', { buf = cur_buf }),
+    filetype = vim.api.nvim_get_option_value('filetype', { buf = cur_buf }),
     shellslash = vim.api.nvim_get_option_value('shellslash', {}) and '/' or '\\',
     mode = cache:get('mode'),
   }
-  local ft = vim.api.nvim_get_option_value('filetype', { buf = cur_buf })
-  if vim.list_contains(status_ignore, ft) then
+  if vim.list_contains(status_ignore, buf_status.filetype) then
     return ''
   elseif actual_win == cur_win then
     cache.last_statusline_win = cur_win
-    return parse_section(expression.active, buf_status)
+    return parse_status(expression.active, buf_status)
   elseif is_popup and cache.last_statusline_win == cur_win then
-    return parse_section(expression.active, buf_status)
+    return parse_status(expression.active, buf_status)
   else
-    return parse_section(expression.inactive, buf_status)
+    return parse_status(expression.inactive, buf_status)
   end
 end
 

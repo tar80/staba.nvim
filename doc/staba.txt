@@ -352,6 +352,7 @@ Parameters: ~
             reg_recording: Displays the name of recording register
             devicon: Buffer extension icon
             encoding: Character encoding of the current buffer
+            filetype: Filetype of the current buffer
             position: Cursor position of the window
             noice_command: Last message
             noice_message: 'showcmd'

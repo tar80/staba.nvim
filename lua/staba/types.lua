@@ -9,7 +9,7 @@
 ---@alias statusColumn 'number'|'sign'|'fold'|'fold_ex'
 ---@alias ComponentType string|function
 ---@alias NavID {[string]:integer}
----@alias BufInfo {tab:integer,buffer:integer,modified:integer,unopened:integer,cwd:string,format:string[]}
+---@alias BufInfo {buffer:integer,modified:integer,unopened:integer,cwd:string,format:string[],shellslash:shellSlash,tab:integer}
 ---@alias TablineTable {bufinfo:BufInfo,left:tabLine[],right:tabLine[],view:listView[],active:tabLineBuffer[],tabs:tabLineBuffer[],buffers:tabLineBuffer[]}
 ---@alias StatuslineSection {left:ComponentType[],middle:ComponentType[],right:ComponentType[]}
 ---@alias StatuslineTable {active:StatuslineSection,inactive:StatuslineSection}
@@ -118,6 +118,7 @@
 ---@field no_name string
 ---@field bufnr integer
 ---@field buftype string
+---@field filetype string
 ---@field modified integer
 ---@field readonly boolean
 ---@field unopened string?

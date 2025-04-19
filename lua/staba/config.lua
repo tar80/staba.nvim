@@ -76,7 +76,7 @@ local DEFAULT_STATUSLINE = {
   active = {
     left = { 'staba_logo', 'search_count', 'reg_recording' },
     middle = {},
-    right = { '%<', 'diagnostics', ' ', 'encoding', ' ', 'position' },
+    right = { '%<', 'diagnostics', ' ', 'filetype', 'encoding', ' ', 'position' },
   },
   inactive = { left = {}, middle = { 'devicon', 'filename', '%*' }, right = {} },
 }

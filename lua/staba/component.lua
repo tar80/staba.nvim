@@ -101,7 +101,17 @@ end
 M.encoding = function()
   local fenc = vim.api.nvim_get_option_value('fileencoding', {})
   local ff = vim.api.nvim_get_option_value('fileformat', {})
-  return fenc ~= '' and ('%s %s%%* '):format(fenc, icons.fileformat[ff]) or ''
+  return fenc ~= '' and ('%s %%*%s '):format(icons.fileformat[ff], fenc) or ''
+end
+
+---@return string filetype Colored current filetype and a symbol
+M.filetype = function(buf_status)
+  local buf = bufs[buf_status.bufnr]
+  local ret = buf_status.filetype
+  if buf and buf.devicon.chr ~= '' then
+    ret = ('%%#%s#%s %%*%s '):format(buf.devicon.hlgroup, buf.devicon.chr, ret)
+  end
+  return ret
 end
 
 ---@return string cursor_position
