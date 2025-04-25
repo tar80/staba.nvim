@@ -21,13 +21,13 @@ M.default = {
     Info = { symbol.diagnostics.Info, 'DiagnosticSignInfo' },
   },
   status = {
-    lock = { symbol.status.lock, 'StabaReadonly' },
-    unlock = symbol.status.unlock,
-    modify = { symbol.status.modify, 'StabaModified' },
-    nomodify = symbol.status.nomodify,
-    unopen = { symbol.status.unopen, 'StabaSpecial' },
-    open = symbol.status.open,
-    rec =  symbol.status.rec2,
+    lock = { symbol.editor.lock, 'StabaReadonly' },
+    unlock = symbol.editor.unlock,
+    modify = { symbol.editor.modify, 'StabaModified' },
+    nomodify = symbol.editor.nomodify,
+    unopen = { symbol.editor.unopen, 'StabaSpecial' },
+    open = symbol.editor.open,
+    rec =  symbol.editor.rec2,
   },
 }
 

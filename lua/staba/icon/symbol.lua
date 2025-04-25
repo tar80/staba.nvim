@@ -5,7 +5,7 @@ M.cmdline = {
   search_down = '',
   search_up = '',
 }
-M.status = {
+M.editor = {
   edit = '󰤌',
   lock = '󰍁',
   unlock = '  ',
@@ -31,7 +31,7 @@ M.mark = {
   square_l = '󰄮',
   star = '󰙴',
 }
-M.state = {
+M.access = {
   success = '',
   failure = '',
   pending = '󰌚',

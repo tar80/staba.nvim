@@ -15,6 +15,9 @@ end
 function M.parse_path(bufnr)
   ---@type string,string
   local wd, name
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    vim.notify('staba-helper-parse_path:bufnr=' ..bufnr, 3,{})
+  end
   local uri = vim.uri_from_bufnr(bufnr)
   local path = vim.api.nvim_buf_get_name(bufnr)
   if uri:find('file://', 1, true) then
