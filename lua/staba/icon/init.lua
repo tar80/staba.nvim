@@ -2,9 +2,10 @@ local M = {}
 local symbol = require('staba.icon.symbol')
 local ui = require('staba.icon.ui')
 
-STABA_LOGO = ''
+local STABA_LOGO = ''
 
 M.default = {
+  adjuster = '',
   logo = { STABA_LOGO, 'WarningMsg' },
   bar = ui.bar.thin,
   bufinfo = ui.bufinfo.alphabet,

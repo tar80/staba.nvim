@@ -28,6 +28,10 @@ M.staba_logo = function()
   return icons.logo .. '%*'
 end
 
+M.icon_adjuster = function()
+  return icons.adjuster
+end
+
 M.shellslash = function(buf_info)
   return buf_info.shellslash
 end
@@ -150,7 +154,7 @@ M.diagnostics = function(buf_status)
   if not (mode == 'i' or mode == 'r') then
     vim.iter({ 'Error', 'Warn', 'Hint', 'Info' }):each(function(v)
       local count = #vim.diagnostic.get(0, { severity = v })
-      local detail = count > 0 and ('%s%s%%* '):format(icons.severity[v], count) or ''
+      local detail = count > 0 and ('%s%s%s%%* '):format(icons.severity[v], icons.adjuster, count) or ''
       details = details .. detail
     end)
   end

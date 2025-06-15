@@ -1,4 +1,3 @@
----@meta helper
 ---@class helper
 local M = {}
 
@@ -10,14 +9,14 @@ end
 
 -- Function to parse a file URI and retrieve the parent directory and file name
 ---@param bufnr integer The buffer number
----@return string wd The parent directory name
----@return string filename The file name
+---@return string? wd The parent directory name
+---@return string? filename The file name
 function M.parse_path(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) then
+    return nil, nil
+  end
   ---@type string,string
   local wd, name
-  if not vim.api.nvim_buf_is_valid(bufnr) then
-    vim.notify('staba-helper-parse_path:bufnr=' ..bufnr, 3,{})
-  end
   local uri = vim.uri_from_bufnr(bufnr)
   local path = vim.api.nvim_buf_get_name(bufnr)
   if uri:find('file://', 1, true) then
@@ -36,11 +35,35 @@ function M.parse_path(bufnr)
   return wd, name
 end
 
+local function _value_converter(value)
+  local tbl = {}
+  local t = type(value)
+  if t == 'function' then
+    tbl = value()
+    return type(tbl) == 'table' and tbl or {}
+  elseif t == 'string' then
+    return { value }
+  elseif t == 'table' then
+    for att, _value in pairs(value) do
+      local att_t = type(_value)
+      if att_t == 'function' then
+        _value = _value()
+        if _value then
+          tbl[att] = _value
+        end
+      end
+      tbl[att] = _value
+    end
+    return tbl
+  end
+  return tbl
+end
+
 -- Set default highlights
 ---@param hlgroups table<string,vim.api.keyset.highlight>
 function M.set_hl(hlgroups)
   vim.iter(hlgroups):each(function(name, value)
-    local hl = type(value) == 'function' and value() or value
+    local hl = _value_converter(value)
     hl['default'] = true
     vim.api.nvim_set_hl(0, name, hl)
   end)

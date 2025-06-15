@@ -113,8 +113,8 @@ end
 ---@return string expression
 function M.decorate(cache)
   do
-    local skip_popup = vim.api.nvim_win_get_config(0).anchor
-    if skip_popup then
+    local skip_float_window = vim.api.nvim_win_get_config(0).anchor
+    if skip_float_window then
       return cache.last_tabline
     end
   end
@@ -150,6 +150,7 @@ function M.decorate(cache)
     end
     local tabnr = tabpage.current[bufnr]
     local tab_current = type(tabnr) == 'number'
+    --NOTE: wd and name may be nil.
     local wd, name = helper.parse_path(bufnr)
     local buftype = vim.api.nvim_get_option_value('buftype', { buf = bufnr })
     local modified = vim.api.nvim_get_option_value('modified', { buf = bufnr })
@@ -159,8 +160,8 @@ function M.decorate(cache)
 
     ---@type BufferStatus
     local buf_status = {
-      parent = bufdata.cwd ~= wd and util.extract_filename(wd) or '',
-      name = name,
+      parent = bufdata.cwd ~= wd and util.extract_filename(wd or '') or '',
+      name = name or '',
       no_name = no_name,
       has_name = name ~= '',
       bufnr = bufnr,

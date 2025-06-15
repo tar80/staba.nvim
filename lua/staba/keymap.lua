@@ -10,7 +10,7 @@ function M.setup(UNIQUE_NAME, opts, cache)
         return
       end
       if #input > 1 then
-        if input:find('^') then
+        if input:find('^', 1, true) then
           vim.cmd('vertical sbuffer ' .. bufnr)
         end
       elseif input:match('%d') then

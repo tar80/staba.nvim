@@ -94,7 +94,7 @@ local DEFAULT_TABLINE = {
     'unopened',
     '%* ',
   },
-  active = { 'devicon', 'namestate' },
+  active = { 'devicon', 'icon_adjuster', 'namestate' },
   view = { 'buffers', 'tabs' },
 }
 
@@ -193,6 +193,7 @@ end
 ---@param user_spec UserSpec
 ---@return Options
 function M.setup(UNIQUE_NAME, user_spec)
+  validate('adjust_icon', user_spec.adjust_icon, 'boolean', true)
   validate('enable_fade', user_spec.enable_fade, 'boolean', true)
   validate('enable_underline', user_spec.enable_underline, 'boolean', true)
   validate('enable_sign_marks', user_spec.enable_sign_marks, 'boolean', true)
@@ -218,6 +219,7 @@ function M.setup(UNIQUE_NAME, user_spec)
   opts.frame = vim.tbl_deep_extend('force', DEFAULT_FRAME, user_spec.frame or {})
   opts.sep = vim.tbl_deep_extend('force', DEFAULT_SEP, user_spec.sep or {})
   opts.icons = vim.tbl_deep_extend('force', icon.default, user_spec.icons or {})
+  opts.icons.adjuster = user_spec.adjust_icon and ' ' or ''
   opts.enable_underline = user_spec.enable_underline
   if user_spec.enable_tabline then
     if user_spec.tabline then

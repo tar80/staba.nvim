@@ -57,6 +57,7 @@
 ---@field mark? {[integer]:{chr:string,id:integer}}
 
 ---@class Options
+---@field adjust_icon boolean
 ---@field enable_fade boolean
 ---@field enable_underline boolean
 ---@field enable_sign_marks boolean
@@ -73,6 +74,7 @@
 ---@field hlnames HlNames
 
 ---@class UserSpec
+---@field adjust_icon boolean
 ---@field enable_statuscolumn? boolean
 ---@field enable_statusline? boolean
 ---@field enable_tabline? boolean

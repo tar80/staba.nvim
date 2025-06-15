@@ -1,4 +1,3 @@
----@meta util
 ---@class util
 local M = {}
 
@@ -12,6 +11,15 @@ function M.value_or_nil(bool, ...)
   -- return bool == true and value or nil
 end
 
+-- Returns a closure for formatting a message with a given "name".
+---@param name string The "name" to be used in the message formatting.
+---@return function - A closure that takes a "message" string and returns the formatted message with "name".
+function M.name_formatter(name)
+  return function(message)
+    return (message):format(name)
+  end
+end
+
 ---@alias valueType "number"|"string"|"boolean"|"table"|"function"|"thread"|"userdata"
 -- A closure function that returns one of the two arguments based on the type of `value` determined in advance.
 ---@param value any The value to be evaluated.
@@ -22,15 +30,6 @@ function M.evaluated_condition(value, validator)
     return t
   end or function(_, f)
     return f
-  end
-end
-
--- Returns a closure for formatting a message with a given "name".
----@param name string The "name" to be used in the message formatting.
----@return function - A closure that takes a "message" string and returns the formatted message with "name".
-function M.name_formatter(name)
-  return function(message)
-    return (message):format(name)
   end
 end
 

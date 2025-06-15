@@ -29,9 +29,9 @@ function M.buf_get_clients()
   return t
 end
 
----@param ids integer[]
-function M.buf_detach_clients(ids)
-  vim.iter(ids):each(function(id)
+---@param clients Clients
+function M.buf_detach_clients(clients)
+  vim.iter(clients.ids):each(function(id)
     lsp.buf_detach_client(0,id)
   end)
 end
