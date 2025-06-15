@@ -52,8 +52,9 @@ optimizing and streamlining existing features. It is designed to be used with
 local ui = require('staba.icon.ui')
 
 require('staba').setup({
+    adjust_icon = false,  -- adds space to icons that are too narrow
     enable_fade = true,
-    enable_underline = true, -- used as a horizontal separator for each buffer.
+    enable_underline = true, -- used as a horizontal separator for each buffer
     enable_sign_marks = true,
     enable_statuscolumn = true,
     enable_statusline = true,

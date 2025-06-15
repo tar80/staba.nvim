@@ -35,6 +35,7 @@ setup({cfg})                                                   *staba.setup()*
         Setup and activate staba
 
         Parameters: ~
+                {adjust_icon}         (boolean)   |adjust-icon|
                 {enable_fade}         (boolean)   |staba-enable-fade|
                 {enable_underline}    (boolean)   |staba-enable-underline|
                 {enable_sign_marks}   (boolean)   |staba-enable-sign-marks|
@@ -65,6 +66,15 @@ wrap_no_fade_background({func}, {...})
 
 ------------------------------------------------------------------------------
 CONFIGURATION                                            *staba-configuration*
+
+adjust-icon                                                      *adjust-icon*
+
+        Add spaces to icon text that does not have enough character width.
+        This value should be set to `true` if character widths are
+        not adjusted by |setcellwidths|.
+
+        Type: boolean
+        Default: false
 
 staba-enable-fade                                          *staba-enable-fade*
 
