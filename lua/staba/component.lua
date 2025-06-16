@@ -142,7 +142,7 @@ end
 
 M.reg_recording = function()
   local register = vim.fn.reg_recording()
-  return register ~= '' and ('recording %s@%s'):format(icons.status.rec, register) or ''
+  return register ~= '' and ('recording %s%s@%s'):format(icons.status.rec, icons.adjuster, register) or ''
 end
 
 ---@param buf_status BufferStatus
