@@ -18,6 +18,7 @@ end
 local function fade_background()
   vim.opt_local.winhighlight:append('NormalNC:StabaNC,StatuslineNC:StabaStatusNC')
 end
+
 local function non_fade_background()
   vim.api.nvim_win_call(cache.bufdata.winid, function()
     vim.opt_local.winhighlight:append('NormalNC:Normal,StatuslineNC:StabaStatus')

@@ -94,7 +94,7 @@ local DEFAULT_TABLINE = {
     'unopened',
     '%* ',
   },
-  active = { 'devicon', 'icon_adjuster', 'namestate' },
+  active = { 'devicon', 'namestate' },
   view = { 'buffers', 'tabs' },
 }
 

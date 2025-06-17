@@ -64,7 +64,8 @@ M.devicon = function(buf_status, is_active)
   local buf = bufs[buf_status.bufnr]
   local ret = ''
   if buf and buf.devicon.chr ~= '' then
-    ret = is_active and ('%#' .. buf.devicon.hlgroup .. '#' .. buf.devicon.chr) or buf.devicon.chr
+    local icon = buf.devicon.chr .. icons.adjuster
+    ret = is_active and ('%#' .. buf.devicon.hlgroup .. '#' .. icon) or icon
   end
   return ret
 end
