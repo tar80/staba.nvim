@@ -5,12 +5,18 @@ function M.setup(UNIQUE_NAME, opts, cache)
   if opts.tabline then
     vim.keymap.set('n', '<Plug>(staba-pick)', function()
       local input = vim.fn.getcharstr(-1, { simplify = false })
+      do
+        local byte = string.byte(input)
+        if string.byte(input) < 32 then
+          input = '^' .. string.char(byte + 64)
+        end
+      end
       local bufnr = cache.buf_id[input:sub(-1):lower()]
       if not bufnr then
         return
       end
       if #input > 1 then
-        if input:find('^', 1, true) then
+        if input:find('^') then
           vim.cmd('vertical sbuffer ' .. bufnr)
         end
       elseif input:match('%d') then
