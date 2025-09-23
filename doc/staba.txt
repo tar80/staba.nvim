@@ -67,7 +67,7 @@ wrap_no_fade_background({func}, {...})
 ------------------------------------------------------------------------------
 CONFIGURATION                                            *staba-configuration*
 
-adjust-icon                                                      *adjust-icon*
+adjust_icon                                                      *adjust-icon*
 
         Add spaces to icon text that does not have enough character width.
         This value should be set to `true` if character widths are
@@ -76,70 +76,70 @@ adjust-icon                                                      *adjust-icon*
         Type: boolean
         Default: false
 
-staba-enable-fade                                          *staba-enable-fade*
+enable_fade                                                *staba-enable-fade*
 
         Fades the background color of windows other than the current one.
 
         Type: boolean
         Default: false
 
-staba-enable-underline                                *staba-enable-underline*
+enable_underline                                      *staba-enable-underline*
 
         Sets an underline to separate from other windows.
 
         Type: boolean
         Default: false
 
-staba-enable-sign-marks                              *staba-enable-sign-marks*
+enable_sign_marks                                    *staba-enable-sign-marks*
 
         Enables the display of marks in the signcolumn.
 
         Type: boolean
         Default: false
 
-staba-enable-statuscolumn                          *staba-enable-statuscolumn*
+enable_statuscolumn                                *staba-enable-statuscolumn*
 
         Enables statuscolumn
 
         Type: boolean
         Default: false
 
-staba-enable-statusline                              *staba-enable-statusline*
+enable_statusline                                    *staba-enable-statusline*
 
         Enables statusline
 
         Type: boolean
         Default: false
 
-staba-enable-tabline                                    *staba-enable-tabline*
+enable_tabline                                          *staba-enable-tabline*
 
         Enables tabline
 
         Type: boolean
         Default: false
 
-staba-mode-line                                              *staba-mode-line*
+mode_line                                                    *staba-mode-line*
 
         Sets the background color of the current line according to the mode.
 
         Type: "LineNr" | "CursorLineNr" | "CursorLine" | nil
         Default: nil
 
-staba-nav-keys                                                *staba-nav-keys*
+nav_keys                                                      *staba-nav-keys*
 
         Specifies alphabets to be used as navigation-key in tabline.
 
         Type: string
         Default: "asdfghjklzxcvnmweryuiop"
 
-staba-no-name                                                  *staba-no-name*
+no_name                                                        *staba-no-name*
 
         Specifies the display name for unnamed buffers.
 
         Type: string
         Default: "[No Name]"
 
-staba-ignore-filetypes                                *staba-ignore-filetypes*
+ignore_filetypes                                      *staba-ignore-filetypes*
 
         Specifies filetypes for which the settings should be disabled.
 
@@ -151,14 +151,14 @@ staba-ignore-filetypes                                *staba-ignore-filetypes*
             tabline = {}
         }
 
-staba-statuscolumn                                        *staba-statuscolumn*
+statuscolumn                                              *staba-statuscolumn*
 
         Specifies the components to be used in statuscolumn.
 
         Type: table
         Default: { 'sign', 'number', 'fold_ex' }
 
-staba-statusline                                            *staba-statusline*
+statusline                                                  *staba-statusline*
 
         Specifies the components to be used in statusline.
 
@@ -176,7 +176,7 @@ staba-statusline                                            *staba-statusline*
             },
         }
 
-staba-tabline                                                  *staba-tabline*
+tabline                                                        *staba-tabline*
 
         Specifies the components to be used in tabline.
 
@@ -209,7 +209,7 @@ staba-tabline                                                  *staba-tabline*
             },
         }
 
-staba-frame                                                      *staba-frame*
+frame                                                            *staba-frame*
 
         Specifies the icon character and highlight to use for the frame
 
@@ -223,7 +223,7 @@ staba-frame                                                      *staba-frame*
             statusline_right = '%#StabaStatusReverse#'..require('staba.icon.ui').frame.slant_u.right
         }
 
-staba-sep                                                          *staba-sep*
+sep                                                                *staba-sep*
 
         Specifies the icon character and highlight to use for the separator
 
@@ -233,7 +233,7 @@ staba-sep                                                          *staba-sep*
             normal_right = '%#TabLineFill#'..require('staba.icon.ui').sep.arrow.right..'%* '
         }
 
-staba-icon                                                        *staba-icon*
+icons                                                             *staba-icon*
 
         Table of icons
 
