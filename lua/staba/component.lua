@@ -153,7 +153,7 @@ M.diagnostics = function(buf_status)
   local mode = buf_status.mode
 
   if not (mode == 'i' or mode == 'r') then
-    vim.iter({ 'Error', 'Warn', 'Hint', 'Info' }):each(function(v)
+    vim.iter({ 'Error', 'Warn', 'Info', 'Hint' }):each(function(v)
       local count = #vim.diagnostic.get(0, { severity = v })
       local detail = count > 0 and ('%s%s%s%%* '):format(icons.severity[v], icons.adjuster, count) or ''
       details = details .. detail

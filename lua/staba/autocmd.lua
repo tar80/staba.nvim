@@ -102,7 +102,9 @@ function M.setup(UNIQUE_NAME, opts)
         cache.mode = mode
 
         if not hlname then
-          vim.opt_local.winhighlight:remove(apply_hls)
+          require('staba.helper').fast_event_wrap(function()
+            vim.opt_local.winhighlight:remove(apply_hls)
+          end)
         else
           vim.opt_local.winhighlight:append(set_mode_hl(apply_hls, hlname))
         end
@@ -220,7 +222,7 @@ function M.setup(UNIQUE_NAME, opts)
   end
 
   if opts.statuscolumn then
-    vim.api.nvim_create_autocmd('Filetype', {
+    vim.api.nvim_create_autocmd('FileType', {
       desc = with_unique_name('%s: disable statuscolumn'),
       group = augroup,
       callback = function(ev)
@@ -262,7 +264,7 @@ function M.setup(UNIQUE_NAME, opts)
     end,
   })
 
-  vim.api.nvim_create_autocmd('Filetype', {
+  vim.api.nvim_create_autocmd('FileType', {
     desc = with_unique_name('%s: set buffer extension icon'),
     group = augroup,
     callback = function(ev)
