@@ -115,7 +115,10 @@ function M.decorate(cache)
   do
     local skip_float_window = vim.api.nvim_win_get_config(0).anchor
     if skip_float_window then
-      return cache.last_tabline
+      local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+      if not vim.list_contains(tab_ignore, filetype) then
+        return cache.last_tabline
+      end
     end
   end
   cache:clear('buf_id', {})

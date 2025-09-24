@@ -102,7 +102,7 @@ function M.setup(UNIQUE_NAME, opts)
         cache.mode = mode
 
         if not hlname then
-          require('staba.helper').fast_event_wrap(function()
+          vim.schedule(function()
             vim.opt_local.winhighlight:remove(apply_hls)
           end)
         else

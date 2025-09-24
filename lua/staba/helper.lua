@@ -1,13 +1,6 @@
 ---@class helper
 local M = {}
 
----@generic F : fun()
----@param func F
----@return fun(F)|fun()
-function M.fast_event_wrap(func)
-  return vim.in_fast_event() and vim.schedule_wrap(func) or func
-end
-
 ---@param winid integer
 ---@return boolean
 function M.is_floating_win(winid)
