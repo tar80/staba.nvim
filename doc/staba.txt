@@ -261,6 +261,10 @@ icons                                                             *staba-icon*
                 nomodify = '  ',
                 unopen = { '󰌖', 'StabaSpecial' },
                 open = '  '
+                rec1 = '󰻿',
+                rec2 = '󰕧',
+                copilot = { '', 'StabaCopilot' },
+                uncopilot = { '', Comment },
             },
         }
 
@@ -346,6 +350,7 @@ Parameters: ~
 
         component(statusline):                    *staba-component-statusline*
             diagnostics: Lsp diagnostics
+            copilot: Displays the attachment status of copilot_ls
 
         component(tabline):                          *staba-component-tabline*
             bufinfo: Buffer information
@@ -461,11 +466,15 @@ Statusline ~
 
 *StabaStatusReverse*
 
-        The reverse color of |StabaStatus| (unused)
+        The reverse the color of |StabaStatus| (unused)
 
 *StabaStatusNC*
 
         Used for the background of non-current status-line.
+
+*StabaCopilot*
+
+        Used for the color of copilot icon.
 
 Tabline ~
 

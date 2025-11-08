@@ -145,6 +145,8 @@ require('staba').setup({
             open = '  ',
             rec1 = '󰻿',
             rec2 = '󰕧',
+            copilot = { '', 'StabaCopilot' },
+            uncopilot = { '', 'Comment' },
         },
     },
 })
