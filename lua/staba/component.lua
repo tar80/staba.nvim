@@ -163,6 +163,12 @@ M.diagnostics = function(buf_status)
   return details == '' and '' or ' ' .. details
 end
 
+M.copilot = function(_)
+  M.copilot = require('staba.autocmd').get_copilot_icon(icons)
+
+  return M.copilot()
+end
+
 local noice
 
 local function load_noice()

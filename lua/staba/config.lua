@@ -33,6 +33,7 @@ local HL_NAMES = {
   special = 'StabaSpecial',
   readonly = 'StabaReadonly',
   modified = 'StabaModified',
+  copilot = 'StabaCopilot',
 
   marks = 'StabaSignMarks',
 }
@@ -159,6 +160,7 @@ local function _set_hl_tab(enable_underline)
   hlgroups[HL_NAMES.special] = { fg = 'Violet', sp = win_sep.fg }
   hlgroups[HL_NAMES.readonly] = { fg = 'Gray', sp = win_sep.fg }
   hlgroups[HL_NAMES.modified] = { fg = 'Cyan', sp = win_sep.fg }
+  hlgroups[HL_NAMES.copilot] = { fg = 'DarkBlue', sp = win_sep.fg }
   helper.set_hl(hlgroups)
 end
 

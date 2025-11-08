@@ -295,6 +295,31 @@ function M.setup(UNIQUE_NAME, opts)
       end
     end,
   })
+
+  function M.get_copilot_icon(icons)
+    local copilot_icon = icons.status.uncopilot
+    vim.api.nvim_create_autocmd('LspAttach', {
+      desc = with_unique_name('%s: Set enable copilot icon'),
+      group = augroup,
+      callback = function(ev)
+        if vim.lsp.get_client_by_id(ev.data.client_id).name == 'copilot_ls' then
+          copilot_icon = icons.status.copilot
+        end
+      end,
+    })
+    vim.api.nvim_create_autocmd('LspDetach', {
+      desc = with_unique_name('%s: Set disable copilot icon'),
+      group = augroup,
+      callback = function(ev)
+        if vim.lsp.get_client_by_id(ev.data.client_id).name == 'copilot_ls' then
+          copilot_icon = icons.status.uncopilot
+        end
+      end,
+    })
+    return function()
+      return ('%s%s%%* '):format(copilot_icon, icons.adjuster)
+    end
+  end
 end
 
 return M

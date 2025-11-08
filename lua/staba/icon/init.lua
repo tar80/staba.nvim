@@ -29,6 +29,8 @@ M.default = {
     unopen = { symbol.editor.unopen, 'StabaSpecial' },
     open = symbol.editor.open,
     rec =  symbol.editor.rec2,
+    copilot = { symbol.copilot.enable, 'StabaCopilot' },
+    uncopilot = { symbol.copilot.disable, 'Comment' },
   },
 }
 

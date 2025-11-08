@@ -25,7 +25,7 @@ M.mark = {
   circle_s = '',
   circle_sl = '',
   circle_sr = '',
-  round_square_s =  '',
+  round_square_s = '',
   round_square_l = '󱓻',
   square_s = '■',
   square_l = '󰄮',
@@ -66,6 +66,10 @@ M.ime = {
 M.git = {
   branch = '',
   branch2 = '',
+}
+M.copilot = {
+  enable = '',
+  disable = '',
 }
 
 return M
