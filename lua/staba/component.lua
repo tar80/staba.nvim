@@ -123,10 +123,10 @@ end
 M.position = function()
   local hl = '%#StabaReadonly#'
   local ln = 'Ln '
-  local col = 'Col '
+  local cn = 'Cn '
   local l = '%3l/%L'
   local c = '%3.c'
-  return ('%s%s%%*%s %s%s%%*%s'):format(hl, ln, l, hl, col, c)
+  return ('%s%s%%*%s %s%s%%*%s'):format(hl, ln, l, hl, cn, c)
 end
 
 ---@return string search-count
@@ -165,22 +165,22 @@ end
 
 local noice
 
-M.noice_message = function(_)
+local function load_noice()
   if not noice then
     noice = package.loaded['noice']
   end
-  if noice then
-    if noice.api.status.message.has() then
-      return noice.api.status.message.get()
-    end
+end
+
+M.noice_message = function(_)
+  load_noice()
+  if noice and noice.api.status.message.has() then
+    return noice.api.status.message.get()
   end
   return ''
 end
 
 M.noice_command = function(_)
-  if not noice then
-    noice = package.loaded['noice']
-  end
+  load_noice()
   if noice then
     if noice.api.status.command.has() then
       return noice.api.status.command.get()
@@ -190,9 +190,7 @@ M.noice_command = function(_)
 end
 
 M.noice_mode = function(_)
-  if not noice then
-    noice = package.loaded['noice']
-  end
+  load_noice()
   if noice then
     if noice.api.status.mode.has() then
       return noice.api.status.mode.get()
