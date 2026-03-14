@@ -1,18 +1,18 @@
-*staba.txt*                                             UI display integration
+*staba.txt* UI display integration
 
 Author:  tar80 <tar80master@google.com>
 License: MIT License
 Repository: https://github.com/tar80/staba.nvim
 
+==============================================================================
 CONTENTS                                                      *staba-contents*
 
-Introduction                                              |staba-introduction|
-Interface                                                    |staba-interface|
-  function                                                    |staba-function|
-  configuration                                          |staba-configuration|
-  component                                                  |staba-component|
-  mapping                                                      |staba-mapping|
-  highlight                                                  |staba-highlight|
+Introduction                                              *staba-introduction*
+Functions                                                     *staba-function*
+Configuration                                            *staba-configuration*
+Components                                                   *staba-component*
+Mappings                                                       *staba-mapping*
+Highlights                                                   *staba-highlight*
 
 ==============================================================================
 INTRODUCTION                                              *staba-introduction*
@@ -20,128 +20,121 @@ INTRODUCTION                                              *staba-introduction*
 Staba.nvim is a UI display plugin that integrates Tabline, Statusline, and
 Statuscolumn. Rather than providing rich displays or numerous providers,
 it is designed to optimize UI-related features across the entire editor and
-reduce visual clutter.
+reduce visual clutter by maintaining a predictable mental model.
 
-This plugin is intended to be used with 'cmdheight'=0 and 'laststatus'=2.
+Recommended settings for optimal use:
+>
+    set cmdheight=0
+    set laststatus=2
+<
 
 ==============================================================================
-INTERFACE                                                    *staba-interface*
-
-------------------------------------------------------------------------------
-FUNCTION                                                      *staba-function*
+FUNCTIONS                                                     *staba-function*
 
 setup({cfg})                                                   *staba.setup()*
 
-        Setup and activate staba
+        Initializes and activates staba with the provided configuration.
 
         Parameters: ~
-                {adjust_icon}         (boolean)   |adjust-icon|
-                {enable_fade}         (boolean)   |staba-enable-fade|
-                {enable_underline}    (boolean)   |staba-enable-underline|
-                {enable_sign_marks}   (boolean)   |staba-enable-sign-marks|
-                {enable_statuscolumn} (boolean)   |staba-enable-statuscolumn|
-                {enable_statusline}   (boolean)   |staba-enable-statusline|
-                {enable_tabline}      (boolean)   |staba-enable-tabline|
-                {mode_line}           (string)    |staba-mode-line|
-                {nav_keys}            (string)    |staba-nav-keys|
-                {no_name}             (string)    |staba-no-name|
-                {ignore_filetypes}    (table)     |staba-ignore-filetypes|
-                {statuscolumn}        (table)     |staba-statuscolumn|
-                {statusline}          (table)     |staba-statusline|
-                {tabline}             (table)     |staba-tabline|
-                {frame}               (table)     |staba-frame|
-                {sep}                 (table)     |staba-sep|
-                {icons}               (table)     |staba-icon|
+                adjust_icon          (boolean)   |adjust-icon|
+                enable_fade          (boolean)   |staba-enable-fade|
+                enable_underline     (boolean)   |staba-enable-underline|
+                enable_sign_marks    (boolean)   |staba-enable-sign-marks|
+                enable_statuscolumn  (boolean)   |staba-enable-statuscolumn|
+                enable_statusline    (boolean)   |staba-enable-statusline|
+                enable_tabline       (boolean)   |staba-enable-tabline|
+                mode_line            (string)    |staba-mode-line|
+                nav_keys             (string)    |staba-nav-keys|
+                no_name              (string)    |staba-no-name|
+                ignore_filetypes     (table)     |staba-ignore-filetypes|
+                statuscolumn         (table)     |staba-statuscolumn|
+                statusline           (table)     |staba-statusline|
+                tabline              (table)     |staba-tabline|
+                frame                (table)     |staba-frame|
+                sep                  (table)     |staba-sep|
+                icons                (table)     |staba-icon|
 
 wrap_no_fade_background({func}, {...})
 
         Temporarily disables fading of the current window background
-        while `func` is running.
+        while `func` is running. Useful for preventing background dimming
+        during specific plugin operations.
 
         Parameters: ~
                 {func}    (function)
-                {...}     (any)
+                {...}     (any) arguments for func
         Return: ~
-                func(...) (any)
+                func(...) (any) result of the function
 
-------------------------------------------------------------------------------
+==============================================================================
 CONFIGURATION                                            *staba-configuration*
 
 adjust_icon                                                      *adjust-icon*
-
-        Add spaces to icon text that does not have enough character width.
-        This value should be set to `true` if character widths are
-        not adjusted by |setcellwidths|.
+        Adds padding to icons that have insufficient character width.
+        Set this to true if icon widths are not correctly handled by your
+        terminal or |setcellwidths|.
 
         Type: boolean
         Default: false
 
 enable_fade                                                *staba-enable-fade*
-
-        Fades the background color of windows other than the current one.
+        Dims/fades the background of non-current windows. 
+        Note: Omit `NormalNC` from your colorscheme for full effect.
 
         Type: boolean
         Default: false
 
 enable_underline                                      *staba-enable-underline*
-
-        Sets an underline to separate from other windows.
+        Draws an underline as a horizontal window separator.
 
         Type: boolean
         Default: false
 
 enable_sign_marks                                    *staba-enable-sign-marks*
-
-        Enables the display of marks in the signcolumn.
+        Enables visualization of marks in the signcolumn.
 
         Type: boolean
         Default: false
 
 enable_statuscolumn                                *staba-enable-statuscolumn*
-
-        Enables statuscolumn
+        Enables the staba statuscolumn
 
         Type: boolean
         Default: false
 
 enable_statusline                                    *staba-enable-statusline*
-
-        Enables statusline
+        Enables the staba statusline
 
         Type: boolean
         Default: false
 
 enable_tabline                                          *staba-enable-tabline*
-
-        Enables tabline
+        Enables the staba tabline
 
         Type: boolean
         Default: false
 
-mode_line                                                    *staba-mode-line*
-
-        Sets the background color of the current line according to the mode.
+mode_line                                                     *staba-mode-line*
+        Changes the highlight of the line number or the entire line based on
+        the current vi-mode.
 
         Type: "LineNr" | "CursorLineNr" | "CursorLine" | nil
         Default: nil
 
 nav_keys                                                      *staba-nav-keys*
-
-        Specifies alphabets to be used as navigation-key in tabline.
+        Characters used for navigation labels in the tabline.
 
         Type: string
         Default: "asdfghjklzxcvnmweryuiop"
 
 no_name                                                        *staba-no-name*
-
-        Specifies the display name for unnamed buffers.
+        The string displayed for empty or unnamed buffers.
 
         Type: string
         Default: "[No Name]"
 
 ignore_filetypes                                      *staba-ignore-filetypes*
-
-        Specifies filetypes for which the settings should be disabled.
+        Disables specific staba features for the given filetypes.
 
         Type: table
         Default: {
@@ -152,15 +145,13 @@ ignore_filetypes                                      *staba-ignore-filetypes*
         }
 
 statuscolumn                                              *staba-statuscolumn*
-
-        Specifies the components to be used in statuscolumn.
+        Specifies the components to render in the statuscolumn.
 
         Type: table
         Default: { 'sign', 'number', 'fold_ex' }
 
 statusline                                                  *staba-statusline*
-
-        Specifies the components to be used in statusline.
+        Configuration for the statusline components.
 
         Type: table
         Default: {
@@ -177,8 +168,8 @@ statusline                                                  *staba-statusline*
         }
 
 tabline                                                        *staba-tabline*
-
-        Specifies the components to be used in tabline.
+        Configuration for the tabline components. Supports "tabs" and "buffers"
+        view modes.
 
         Type: table
         Default: {
@@ -209,8 +200,7 @@ tabline                                                        *staba-tabline*
             },
         }
 
-frame                                                            *staba-frame*
-
+frame                                                           *staba-frame*
         Specifies the icon character and highlight to use for the frame
 
         Type: {[string]: string}
@@ -223,8 +213,7 @@ frame                                                            *staba-frame*
             statusline_right = '%#StabaStatusReverse#'..require('staba.icon.ui').frame.slant_u.right
         }
 
-sep                                                                *staba-sep*
-
+sep                                                               *staba-sep*
         Specifies the icon character and highlight to use for the separator
 
         Type: {[string]: string}
@@ -233,8 +222,7 @@ sep                                                                *staba-sep*
             normal_right = '%#TabLineFill#'..require('staba.icon.ui').sep.arrow.right..'%* '
         }
 
-icons                                                             *staba-icon*
-
+icons                                                            *staba-icon*
         Table of icons
 
         Type: {[string]: string | [icon:string, hlgroup:string]}
@@ -268,11 +256,11 @@ icons                                                             *staba-icon*
             },
         }
 
-------------------------------------------------------------------------------
-COMPONENT                                                    *staba-component*
+==============================================================================
+COMPONENT                                                     *staba-component*
 
-In addition to the standard components, strings and functions
-can be specified for statusline and tabline.
+Staba allows strings, standard components, and custom Lua functions to be 
+used in the UI sections.
 
 Statuscolumn
         Parameters: ~
@@ -380,66 +368,47 @@ Parameters: ~
         function:                                   *staba-component-function*
             Register a function name as a component
 
-------------------------------------------------------------------------------
+==============================================================================
 MAPPING                                                        *staba-mapping*
 
-For buffer operations ~
+BUFFER OPERATIONS ~
 
-<Plug>(staba-pick)
+<Plug>(staba-pick)                                                 *staba-pick*
+        Triggers buffer selection via labels.
+        - Single key: Open in current window.
+        - Shift + key: Horizontal split.
+        - Ctrl + key: Vertical split.
 
-        This allows you to select a buffer via navigation-key.
-        When using a single key, it will open in the current buffer, but
-        if the modifier key Shift is pressed, it will open horizontally,
-        and if Ctrl is pressed, it will open vertically.
+<Plug>(staba-delete-current)                             *staba-delete-current*
+        Deletes the current buffer.
 
-        e.g:
-          <mapped-key>[navigation-key]
-              This opens a buffer in the current window.
+<Plug>(staba-delete-select)                               *staba-delete-select*
+        Deletes a selected buffer via label.
 
-          <mapped-key>[Shift + navigation-key]
-              This opens a buffer in a horizontal split of the window.
+<Plug>(staba-cleanup)                                           *staba-cleanup*
+        Wipes all unchanged/unlisted buffers except the current and scratch.
 
-          <mapped-key>[Ctrl + navigation-key]
-              This opens a buffer in a vertical split of the window.
+MARK OPERATIONS ~
 
-<Plug>(staba-delete-current)
-
-        This will delete the current buffer.
-
-<Plug>(staba-delete-select)
-
-        This will delete a buffer you selected via label.
-
-<Plug>(staba-clean)
-
-        This deletes all unchanged buffers except for the current buffer
-        and scratch buffers.
-
-For marks operations ~
-
-<Plug>(staba-mark-operator)
-
+<Plug>(staba-mark-operator)                               *staba-mark-operator*
         This is the basic key for mark operations.
         Works the same as the regular |m| key.
         This key must be registered in order to update the mark signs.
 
-<Plug>(staba-mark-toggle)
+<Plug>(staba-mark-toggle)                                   *staba-mark-toggle*
+        Toggles mark 'm' on the current line.
 
-        If the current line has a mark set, it will be deleted.
-        If not, mark |m| will be registered.
+<Plug>(staba-mark-delete)                                   *staba-mark-delete*
+        Deletes the mark on the current line.
 
-<Plug>(staba-mark-delete)
-
-        Deletes a mark on the current line if one exists.
-
-<Plug>(staba-mark-delete-all)
-
-        Deletes all alphabetical marks in the entire buffer.
+<Plug>(staba-mark-delete-all)                           *staba-mark-delete-all*
+        Wipes all alphabetical marks from the buffer.
 
 ------------------------------------------------------------------------------
-HIGHLIGHT                                                    *staba-highlight*
+HIGHLIGHT                                                     *staba-highlight*
 
-vi-mode ~
+VI-MODE HIGHLIGHTS ~
+Staba mode highlights are applied to LineNr, CursorLineNr, or CursorLine.
 
 *StabaInsertMode*
 *StabaVisualMode*
@@ -448,73 +417,43 @@ vi-mode ~
 *StabaReplaceMode*
 *StabaCmdlineMode*
 
-        Used for highlighting the current line.
-        Applied to |LineNr|, |CursorLineNr|, or |CursorLine|
-        according to the current vi-mode.
+UI ELEMENTS ~
 
 Fade non-current windows ~
-
 *StabaNc*
-
         Used for fading non-current windows.
 
 Statusline ~
-
 *StabaStatus*
-
         Used for the background of status-line.
-
 *StabaStatusReverse*
-
         The reverse the color of |StabaStatus| (unused)
-
 *StabaStatusNC*
-
         Used for the background of non-current status-line.
-
 *StabaCopilot*
-
         Used for the color of copilot icon.
 
 Tabline ~
-
 *StabaTabFillReverse*
-
         The reverse color of |TabLineFill| (unused)
-
 *StabaTabs*
-
         Used for the labels of tabs that display tab names in tab-line.
-
 *StabaTabsReverse*
-
         The reverse color of |StabaTabs|
-
 *StabaBuffers*
-
         Used for the labels of tabs that display buffer names in tab-line.
-
 *StabaBuffersReverse*
-
         The reverse color of |StabaBuffers|
-
 *StabaSpecial*
-
         Used for unopened buffers in bufinfo.
-
 *StabaReadonly*
-
         Used for the read-only state of the current buffer
         and the names of non-current buffers.
-
 *StabaModified*
-
         Used for buffers that have been modified.
 
 Statuscolumn ~
-
 *StabaSignMarks*
-
         Used for signcolumn marks.
 
 ==============================================================================

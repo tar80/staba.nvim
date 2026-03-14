@@ -2,13 +2,12 @@
 
 ![staba](https://github.com/user-attachments/assets/e69d6102-4280-486e-8369-1017ddc35e93)
 
-Staba.nvim is a UI display plugin that integrates Tabline, Statusline,
-and Statuscolumn. It was developed with a concept that differs from typical
-display plugins.
+Staba.nvim is a UI enhancement suite integrating Tabline, Statusline, and Statuscolumn.
+It deviates from conventional display plugins by prioritizing functional
+optimization and workflow streamlining over purely aesthetic "rich" displays.
 
-It does not provide rich displays or numerous providers. Instead, it focuses on
-optimizing and streamlining existing features. It is designed to be used with
-`cmdheight=0` and `laststatus=2`, and it provides a provider for Noice.nvim.
+Designed specifically for minimalist setups (`cmdheight=0`, `laststatus=2`),
+it provides a focused set of providers and seamless integration with Noice.nvim.
 
 > [!WARNING]
 > Staba.nvim does not support any mouse operations
@@ -38,7 +37,7 @@ optimizing and streamlining existing features. It is designed to be used with
 {
   'tar80/staba.nvim',
   opts = {
-    ...
+    -- Your configuration here
   },
 }
 ```
@@ -59,9 +58,9 @@ require('staba').setup({
     enable_statuscolumn = true,
     enable_statusline = true,
     enable_tabline = true,
-    mode_line = 'LineNr' -- choose from "LineNr"|"CursorLineNr"|"CursorLine" or nil
-    nav_keys = 'asdfghjklzxcvnmweryuiop', -- for assigning to navigation keys
-    no_name = '[No Name]' -- a buffer name for an empty buffer
+    mode_line = 'LineNr', -- "LineNr"|"CursorLineNr"|"CursorLine" or nil
+    nav_keys = 'asdfghjklzxcvnmweryuiop', -- buffer navigation labels
+    no_name = '[No Name]',
     ignore_filetypes = {
         fade = {},
         statuscolumn = { 'qf', 'help', 'terminal' },
@@ -71,25 +70,25 @@ require('staba').setup({
     statuscolumn = { 'sign', 'number', 'fold_ex' },
     statusline = {
         active = {
-            left = { 'staba_logo','search_count', 'reg_recording' },
+            left = { 'staba_logo', 'search_count', 'reg_recording' },
             middle = {},
-            right = { '%<', 'diagnostics', ' ', 'filetype', 'encoding', ' ' , 'position' },
+            right = { '%<', 'diagnostics', ' ', 'filetype', 'encoding', ' ', 'position' },
             },
-        inactive = { left = {}, middle = { 'devicon', 'filename', '%*' }, right = {} },
+        inactive = {
+            left = {},
+            middle = { 'devicon', 'filename', '%*' },
+            right = {}
+        },
     },
     tabline = {
         left = { 'bufinfo', 'parent', 'shellslash', ' ' },
         right = {},
         view = { 'buffers', 'tabs' },
         bufinfo = {
-            '%#StabaTabsReverse#',
-            'tab',
-            '%#StabaBuffersReverse#',
-            'buffer',
-            '%#StabaModified#',
-            'modified',
-            '%#StabaSpecial#',
-            'unopened',
+            '%#StabaTabsReverse#', 'tab',
+            '%#StabaBuffersReverse#', 'buffer',
+            '%#StabaModified#', 'modified',
+            '%#StabaSpecial#', 'unopened',
             '%* ',
         },
         active = { 'devicon', 'namestate' },
@@ -159,12 +158,13 @@ require('staba').setup({
 
 ## Tabline
 
-This element differs significantly from typical UI display plugins. Unlike
-conventional Tablines, the arrangement of tabs is constant.
-The first tab, located at the left edge, always indicates the current buffer.
-The alternate buffer is always the second. The remaining space is filled with
-other buffers and tabs. The numbers on the left represent the total tab pages,
-total buffers, modified buffers, and hidden arglists, respectively.
+Staba's Tabline introduces a predictable mental model. Unlike standard implementations where buffers shift positions, Staba maintains a constant arrangement:
+
+1. The **leftmost** slot is always the **Current Buffer**.
+2. The **second** slot is always the **Alternate Buffer**.
+3. Remaining space is filled with other buffers and tab pages.
+
+The header indicators represent (from left to right): Total Tabpages, Total Buffers, Modified Buffers, and Hidden Arglists.
 
 ![tabline_details](https://github.com/user-attachments/assets/d412edd7-7a9c-4269-81b1-f995f3954aca)
 
@@ -191,12 +191,9 @@ local git_signs = function()
   local root = status.root:gsub('^(.+[/\\])', '')
   local head = status.head
   local stage = ('%s+%s%s~%s%s!%s%s '):format(
-    '%#Changed#',
-    status.changed,
-    '%#Added#',
-    status.added,
-    '%#Removed#',
-    status.removed,
+    '%#Changed#', status.changed,
+    '%#Added#', status.added,
+    '%#Removed#', status.removed,
     '%*'
   )
   return ('%s %s %s '):format(root, head, stage)
@@ -224,6 +221,9 @@ require('staba').setup({
 This element allows for the display of fold markers, and line highlighting based
 on vi-mode. The fold marker display was created with reference to Snacks.nvim.
 While that implementation is highly functional and powerful, Staba.nvim is designed to be simpler.
+
+- **Mode-aware Highlighting**: Line numbers or cursor lines change color based on the current vi-mode.
+- **Mark Signs**: Visualizes buffer marks in the signcolumn. Use the <Plug> maps to toggle or delete marks on the fly.
 
 [fold](https://github.com/user-attachments/assets/3cfb2dee-ac2f-4664-8479-0156aa3f8192)
 
@@ -260,47 +260,24 @@ Staba.nvim solves these problems.
 
 ## Keymaps
 
-- There are used for buffer operations.
+### Buffer Operations
 
-  **\<Plug>(staba-pick)**
+- **<Plug>(staba-pick)**: Select a buffer by label.
+  - `Key`: Open in current window.
+  - `Shift + Key`: Open in a horizontal split.
+  - `Ctrl + Key`: Open in a vertical split.
+- **<Plug>(staba-delete-current)**: Unload/delete the current buffer.
+- **<Plug>(staba-delete-select)**: Delete a specific buffer by label.
+- **<Plug>(staba-cleanup)**: Wipe all unchanged/unlisted buffers to keep your environment clean.
 
-  - This allows you to select a buffer via label. When using a single key,
-    it will open in the current buffer, but if the modifier key `Shift` is pressed,
-    it will open horizontally, and if `Ctrl` is pressed, it will open vertically.
+### Mark Operations
 
-  **\<Plug>(staba-delete-current)**
+- **<Plug>(staba-mark-operator)**: Works like the native m key but updates UI signs immediately.
+- **<Plug>(staba-mark-toggle)**: Toggle mark m on the current line.
+- **<Plug>(staba-mark-delete)**: Clear mark on the current line.
+- **<Plug>(staba-mark-delete-all)**: Wipe all alphabetical marks from the buffer.
 
-  - This will delete the current buffer.
-
-  **\<Plug>(staba-delete-select)**
-
-  - This will delete a buffer you selected via label.
-
-  **\<Plug>(staba-cleanup)**
-
-  - This deletes all unchanged buffers except the current buffer and scratch buffers.
-    In fact, there are plugins that generate an error when deleting the scratch buffer.
-
-- These are used for mark operations.
-
-  **\<Plug>(staba-mark-operator)**
-
-  - This is the basic key for mark operations. Works the same as the regular `m`
-    key. This key must be registered in order to update the mark signs.
-
-  **\<Plug>(staba-mark-toggle)**
-
-  - If the current line has a mark set, it will be deleted. If not, mark `m` will be registered.
-
-  **\<Plug>(staba-mark-delete)**
-
-  - Deletes a mark on the current line if one exists.
-
-  **\<Plug>(staba-mark-delete-all)**
-
-  - Deletes all alphabetical marks in the entire buffer.
-
-- For example, here is a keymapping example:
+### Example Mapping
 
 ```lua
 vim.keymap.set('n', 'gb', '<Plug>(staba-pick)')
@@ -334,7 +311,7 @@ end)
 
 ## Acknowledgments
 
-This plugin was influenced by the following plugins.
+Staba.nvim is inspired by and built upon concepts from:
 
 - [Snacks.nvim](https://github.com/folke/snacks.nvim)
 - [Staline.nvim](https://github.com/tamton-aquib/staline.nvim)
