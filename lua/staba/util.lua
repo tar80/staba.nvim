@@ -7,8 +7,10 @@ local M = {}
 ---@param ... T
 ---@return T|nil
 function M.value_or_nil(bool, ...)
-  return vim.F.ok_or_nil(bool, ...)
-  -- return bool == true and value or nil
+  if bool == true then
+    return ...
+  end
+  return nil
 end
 
 -- Returns a closure for formatting a message with a given "name".
@@ -20,7 +22,7 @@ function M.name_formatter(name)
   end
 end
 
----@alias valueType "number"|"string"|"boolean"|"table"|"function"|"thread"|"userdata"
+---@alias valueType "string"|number|boolean|table|function|thread|userdata
 -- A closure function that returns one of the two arguments based on the type of `value` determined in advance.
 ---@param value any The value to be evaluated.
 ---@param validator valueType The type to compare against.
@@ -48,7 +50,11 @@ local rgx_fileext = '^.*%.'
 ---@param filepath string The full path from which to extract the filename.
 ---@return string, number - The extracted extension, and replacement count.
 function M.extract_fileext(filepath)
-  return filepath:gsub(rgx_fileext, '', 1)
+  local ext, count = filepath:gsub(rgx_fileext, '', 1)
+  if count == 0 then
+    ext = ''
+  end
+  return ext, count
 end
 
 return M
