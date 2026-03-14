@@ -61,7 +61,7 @@ function M.setup(UNIQUE_NAME, opts, cache)
           and vim.api.nvim_get_option_value('buftype', { buf = bufnr }) ~= 'nofile'
           and not vim.api.nvim_get_option_value('modified', { buf = bufnr })
         then
-          vim.api.nvim_buf_delete(bufnr, { unload = false })
+          vim.api.nvim_buf_delete(bufnr, { force = true })
         end
       end)
       vim.notify('Clean-up buffers', vim.log.levels.INFO, { title = 'staba.nvim' })
