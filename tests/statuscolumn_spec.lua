@@ -85,4 +85,3 @@ describe('statuscolumn', function()
     end)
   end)
 end)
-
