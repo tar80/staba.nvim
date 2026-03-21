@@ -7,12 +7,12 @@ Repository: https://github.com/tar80/staba.nvim
 ==============================================================================
 CONTENTS                                                      *staba-contents*
 
-Introduction                                              *staba-introduction*
-Functions                                                     *staba-function*
-Configuration                                            *staba-configuration*
-Components                                                   *staba-component*
-Mappings                                                       *staba-mapping*
-Highlights                                                   *staba-highlight*
+Introduction                                              |staba-introduction|
+Functions                                                     |staba-function|
+Configuration                                            |staba-configuration|
+Components                                                   |staba-component|
+Mappings                                                       |staba-mapping|
+Highlights                                                   |staba-highlight|
 
 ==============================================================================
 INTRODUCTION                                              *staba-introduction*
@@ -36,23 +36,23 @@ setup({cfg})                                                   *staba.setup()*
         Initializes and activates staba with the provided configuration.
 
         Parameters: ~
-                adjust_icon          (boolean)   |adjust-icon|
-                enable_fade          (boolean)   |staba-enable-fade|
-                enable_underline     (boolean)   |staba-enable-underline|
-                enable_sign_marks    (boolean)   |staba-enable-sign-marks|
-                enable_statuscolumn  (boolean)   |staba-enable-statuscolumn|
-                enable_statusline    (boolean)   |staba-enable-statusline|
-                enable_tabline       (boolean)   |staba-enable-tabline|
-                mode_line            (string)    |staba-mode-line|
-                nav_keys             (string)    |staba-nav-keys|
-                no_name              (string)    |staba-no-name|
-                ignore_filetypes     (table)     |staba-ignore-filetypes|
-                statuscolumn         (table)     |staba-statuscolumn|
-                statusline           (table)     |staba-statusline|
-                tabline              (table)     |staba-tabline|
-                frame                (table)     |staba-frame|
-                sep                  (table)     |staba-sep|
-                icons                (table)     |staba-icon|
+                {adjust_icon}         (boolean)   |adjust-icon|
+                {enable_fade}         (boolean)   |staba-enable-fade|
+                {enable_underline}    (boolean)   |staba-enable-underline|
+                {enable_sign_marks}   (boolean)   |staba-enable-sign-marks|
+                {enable_statuscolumn} (boolean)   |staba-enable-statuscolumn|
+                {enable_statusline}   (boolean)   |staba-enable-statusline|
+                {enable_tabline}      (boolean)   |staba-enable-tabline|
+                {mode_line}           (string)    |staba-mode-line|
+                {nav_keys}            (string)    |staba-nav-keys|
+                {no_name}             (string)    |staba-no-name|
+                {ignore_filetypes}    (table)     |staba-ignore-filetypes|
+                {statuscolumn}        (table)     |staba-statuscolumn|
+                {statusline}          (table)     |staba-statusline|
+                {tabline}             (table)     |staba-tabline|
+                {frame}               (table)     |staba-frame|
+                {sep}                 (table)     |staba-sep|
+                {icons}               (table)     |staba-icon|
 
 wrap_no_fade_background({func}, {...})
 
