@@ -17,7 +17,7 @@ function M.buf_get_clients()
   local t = {
     count = #clients,
     names = {},
-    ids = {}
+    ids = {},
   }
   vim.iter(clients):each(function(client)
     local name = client.name
@@ -32,7 +32,7 @@ end
 ---@param clients Clients
 function M.buf_detach_clients(clients)
   vim.iter(clients.ids):each(function(id)
-    lsp.buf_detach_client(0,id)
+    lsp.buf_detach_client(0, id)
   end)
 end
 
