@@ -2,19 +2,6 @@ local M = {}
 local cache = require('staba.cache')
 local helper = require('staba.helper')
 
--- configure a single hlgroup for multiple hlgroups for winhighlight configuration
----@param mode_hl string[] To hlgroup names
----@param from string From hlgroup name
----@return string `value of winhighlight`
-local function set_mode_hl(mode_hl, from)
-  return vim
-    .iter(mode_hl)
-    :map(function(to)
-      return to .. ':' .. from
-    end)
-    :join(',')
-end
-
 local function fade_background()
   vim.opt_local.winhighlight:append('NormalNC:StabaNC,StatuslineNC:StabaStatusNC')
 end
@@ -82,6 +69,7 @@ function M.setup(UNIQUE_NAME, opts)
   if opts.mode_line then
     local apply_hls = opts.mode_line == 'CursorLine' and { 'CursorLine' } or { 'LineNr', 'CursorLineNr' }
     local mode_tbl = {
+      n = opts.hlnames.normal,
       i = opts.hlnames.mode_i,
       s = opts.hlnames.mode_s,
       r = opts.hlnames.mode_r,
@@ -103,10 +91,14 @@ function M.setup(UNIQUE_NAME, opts)
 
         if not hlname then
           vim.schedule(function()
-            vim.opt_local.winhighlight:remove(apply_hls)
+            vim.iter(apply_hls):each(function(hls)
+              vim.opt_local.winhighlight:remove(hls)
+            end)
           end)
         else
-          vim.opt_local.winhighlight:append(set_mode_hl(apply_hls, hlname))
+          vim.iter(apply_hls):each(function(hls)
+            vim.opt_local.winhighlight:append(('%s:%s'):format(hls, hlname))
+          end)
         end
         if ev.match == 'i:n' then
           local row = vim.api.nvim_win_get_cursor(0)[1] - 1
